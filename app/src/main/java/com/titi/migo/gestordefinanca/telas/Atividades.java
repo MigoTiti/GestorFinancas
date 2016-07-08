@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -50,6 +49,10 @@ public class Atividades extends AppCompatActivity {
         parcelasTexto.setText(Integer.toString(adminBD.getContagemRegistrosPorNome(nomeAtividadeAux)));
     }
 
+    private void removerParcelas() {
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +79,10 @@ public class Atividades extends AppCompatActivity {
 
                 popularDetalhes(id, detalhes);
 
-                Button removerAtividade = (Button) detalhes.findViewById(R.id.removerTudoB);
+                final Button removerAtividade = (Button) detalhes.findViewById(R.id.removerTudoB);
+                Button removerParcela = (Button) detalhes.findViewById(R.id.removerParcelaB);
+                Button editarTudo = (Button) detalhes.findViewById(R.id.editarTudoB);
+                Button editarParcela = (Button) detalhes.findViewById(R.id.editarParcelaB);
 
                 final AlertDialog a = builder.show();
 
@@ -86,6 +92,65 @@ public class Atividades extends AppCompatActivity {
                         adminBD.deletarTodasAtividades(nomeAtividadeAux);
                         atualizarLista();
                         a.dismiss();
+                    }
+                });
+
+                removerParcela.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final View removerParcela = View.inflate(view.getContext(), R.layout.layout_remover_parcela, null);
+                        final AlertDialog.Builder construtor = new AlertDialog.Builder(view.getContext());
+
+                        construtor.setTitle("Remover parcelas");
+                        construtor.setMessage("Escolha uma ou mais parcelar para remoção: ");
+                        construtor.setView(removerParcela)
+                                .setCancelable(false)
+                                .create();
+
+                        ListView listaParcelas = (ListView) removerParcela.findViewById(R.id.listaParcela);
+                        final Cursor atividades = adminBD.getAtividadesPorNome(nomeAtividadeAux);
+
+                        String[] colunas = new String[]{"ano", "mes", "valor"};
+                        int[] widgets = new int[]{R.id.anoListaParcela, R.id.mesListaParcela, R.id.valorListaParcela};
+
+                        SimpleCursorAdapter adapter = new SimpleCursorAdapter(view.getContext(), R.layout.lista_parcelas,
+                                atividades, colunas, widgets, 0);
+
+                        listaParcelas.setAdapter(adapter);
+
+                        final Button removerParcelas = (Button) removerParcela.findViewById(R.id.removerParcelaBotao);
+                        final Button cancelar = (Button) removerParcela.findViewById(R.id.button);
+
+                        final AlertDialog dialogo = construtor.show();
+
+                        removerParcelas.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                removerParcelas();
+                                dialogo.dismiss();
+                            }
+                        });
+
+                        cancelar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialogo.dismiss();
+                            }
+                        });
+                    }
+                });
+
+                editarTudo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+
+                editarParcela.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
                     }
                 });
             }
@@ -276,15 +341,12 @@ public class Atividades extends AppCompatActivity {
 
     private void atualizarLista() {
         final Cursor atividades = adminBD.getAtividadesDistintas();
-        final Cursor atividadesGeral = adminBD.getAtividades();
 
         String[] colunas = new String[]{"_id", "valor", "tipo"};
         int[] widgets = new int[]{R.id.idTexto, R.id.valorTexto, R.id.tipoTexto};
 
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.layout_atividade,
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.lista_atividade,
                 atividades, colunas, widgets, 0);
-
-        System.out.println(DatabaseUtils.dumpCursorToString(atividadesGeral));
 
         lista = (ListView) findViewById(R.id.listView);
         lista.setAdapter(adapter);
