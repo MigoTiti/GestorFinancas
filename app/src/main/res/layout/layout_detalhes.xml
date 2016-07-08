@@ -8,7 +8,7 @@
         android:id="@+id/textView13"
         android:layout_column="0"
         android:textSize="20dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="0" />
 
@@ -20,14 +20,15 @@
         android:layout_column="1"
         android:textSize="20dp"
         android:layout_marginTop="8dp"
-        android:layout_row="0" />
+        android:layout_row="0"
+        android:layout_marginLeft="25dp" />
 
     <TextView
         android:text="Tipo: "
         android:id="@+id/textView16"
         android:layout_column="0"
         android:textSize="20dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="1" />
 
@@ -39,14 +40,15 @@
         android:layout_column="1"
         android:textSize="20dp"
         android:layout_marginTop="8dp"
-        android:layout_row="1" />
+        android:layout_row="1"
+        android:layout_marginLeft="25dp" />
 
     <TextView
         android:text="Valor: "
         android:id="@+id/textView18"
         android:layout_column="0"
         android:textSize="20dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="2" />
 
@@ -58,14 +60,15 @@
         android:layout_column="1"
         android:textSize="20dp"
         android:layout_marginTop="8dp"
-        android:layout_row="2" />
+        android:layout_row="2"
+        android:layout_marginLeft="25dp" />
 
     <TextView
         android:text="Parcelas: "
         android:id="@+id/textView20"
         android:layout_column="0"
         android:textSize="20dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="3" />
 
@@ -77,14 +80,15 @@
         android:layout_column="1"
         android:textSize="20dp"
         android:layout_marginTop="8dp"
-        android:layout_row="3" />
+        android:layout_row="3"
+        android:layout_marginLeft="25dp" />
 
     <TextView
         android:text="Ano de início: "
         android:id="@+id/textView22"
         android:layout_column="0"
         android:textSize="20dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="4" />
 
@@ -96,14 +100,15 @@
         android:layout_column="1"
         android:textSize="20dp"
         android:layout_marginTop="8dp"
-        android:layout_row="4" />
+        android:layout_row="4"
+        android:layout_marginLeft="25dp" />
 
     <TextView
         android:text="Ano de término: "
         android:id="@+id/textView23"
         android:layout_column="0"
         android:textSize="20dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="5" />
 
@@ -115,13 +120,14 @@
         android:layout_column="1"
         android:textSize="20dp"
         android:layout_marginTop="8dp"
-        android:layout_row="5" />
+        android:layout_row="5"
+        android:layout_marginLeft="25dp" />
 
     <TextView
         android:text="Mês de início: "
         android:layout_column="0"
         android:textSize="20dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="6" />
 
@@ -133,14 +139,15 @@
         android:layout_column="1"
         android:textSize="20dp"
         android:layout_marginTop="8dp"
-        android:layout_row="6" />
+        android:layout_row="6"
+        android:layout_marginLeft="25dp" />
 
     <TextView
         android:text="Mês de término: "
         android:id="@+id/textView25"
         android:layout_column="0"
         android:textSize="20dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="7" />
 
@@ -152,7 +159,8 @@
         android:layout_column="1"
         android:textSize="20dp"
         android:layout_marginTop="8dp"
-        android:layout_row="7" />
+        android:layout_row="7"
+        android:layout_marginLeft="25dp" />
 
     <Button
         android:layout_width="300dp"
@@ -161,7 +169,8 @@
         android:id="@+id/removerTudoB"
         android:layout_row="8"
         android:layout_column="0"
-        android:layout_columnSpan="2" />
+        android:layout_columnSpan="2"
+        android:layout_marginLeft="5dp" />
 
     <Button
         android:layout_width="300dp"
@@ -170,7 +179,8 @@
         android:id="@+id/removerParcelaB"
         android:layout_row="9"
         android:layout_column="0"
-        android:layout_columnSpan="2" />
+        android:layout_columnSpan="2"
+        android:layout_marginLeft="5dp" />
 
     <Button
         android:layout_width="300dp"
@@ -179,7 +189,8 @@
         android:id="@+id/editarTudoB"
         android:layout_row="10"
         android:layout_column="0"
-        android:layout_columnSpan="2" />
+        android:layout_columnSpan="2"
+        android:layout_marginLeft="5dp" />
 
     <Button
         android:layout_width="300dp"
@@ -188,16 +199,7 @@
         android:id="@+id/editarParcelaB"
         android:layout_row="11"
         android:layout_column="0"
-        android:layout_columnSpan="2" />
-
-    <Button
-        android:onClick=""
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="Cancelar"
-        android:id="@+id/cancelarB"
-        android:layout_row="12"
-        android:layout_column="0"
-        android:layout_columnSpan="2" />
+        android:layout_columnSpan="2"
+        android:layout_marginLeft="5dp" />
 
 </GridLayout>

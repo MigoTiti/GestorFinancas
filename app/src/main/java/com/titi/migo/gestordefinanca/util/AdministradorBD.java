@@ -47,12 +47,28 @@ public class AdministradorBD extends SQLiteOpenHelper {
         return this.getReadableDatabase().rawQuery("SELECT * FROM atividade", null);
     }
 
+    public Cursor getAtividadePorID(int id) {
+        return this.getReadableDatabase().rawQuery("SELECT nome, tipo, ano, mes, anoinicio, mesinicio, anofim, mesfim, valor" +
+                " FROM atividade WHERE _id = ?", new String[]{Integer.toString(id)});
+    }
+
+    public Cursor getAtividadePorIDGeral(int id) {
+        return this.getReadableDatabase().rawQuery("SELECT nome, tipo, anoinicio, mesinicio, anofim, mesfim, valor" +
+                " FROM atividade WHERE _id = ?", new String[]{Integer.toString(id)});
+    }
+
+    public int getContagemRegistrosPorNome(String nome) {
+        Cursor aux = this.getReadableDatabase().rawQuery("SELECT count(*) FROM atividade WHERE nome = ? ", new String[]{nome});
+        aux.moveToNext();
+        return aux.getInt(0);
+    }
+
     public Cursor getAtividadesDistintas() {
         return this.getReadableDatabase().rawQuery("SELECT * FROM atividade GROUP BY nome ORDER BY _id ASC ", null);
     }
 
     public Cursor getAtividadesPorNome(String nome) {
-        return this.getReadableDatabase().rawQuery("SELECT * FROM atividade WHERE nome = ? ", new String[]{nome});
+        return this.getReadableDatabase().rawQuery("SELECT * FROM atividade WHERE nome = ?  ORDER BY _id ASC", new String[]{nome});
     }
 
     public boolean isNomeUnico(String nome) {
@@ -98,6 +114,10 @@ public class AdministradorBD extends SQLiteOpenHelper {
 
     public void deletarAtividade(int id) {
         this.getWritableDatabase().delete("atividade", "_id = ? ", new String[]{Integer.toString(id)});
+    }
+
+    public void deletarTodasAtividades(String nome) {
+        this.getWritableDatabase().execSQL("DELETE FROM atividade WHERE nome = ? ", new String[]{nome});
     }
 
     public final static String NOME_BD = "gestorDB.db";

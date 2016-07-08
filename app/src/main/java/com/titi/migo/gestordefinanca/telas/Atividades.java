@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.titi.migo.gestordefinanca.R;
 import com.titi.migo.gestordefinanca.util.AdministradorBD;
@@ -23,6 +24,31 @@ import com.titi.migo.gestordefinanca.util.AdministradorBD;
 import java.util.HashMap;
 
 public class Atividades extends AppCompatActivity {
+
+    private void popularDetalhes(int id, View v) {
+        Cursor detalhesAtividade = adminBD.getAtividadePorIDGeral(id);
+        detalhesAtividade.moveToNext();
+
+        TextView nomeTexto = (TextView) v.findViewById(R.id.nomeTextoDiag);
+        TextView tipoTexto = (TextView) v.findViewById(R.id.tipoTextoDiag);
+        TextView anoInicioTexto = (TextView) v.findViewById(R.id.anoInicioTextoDiag);
+        TextView mesInicioTexto = (TextView) v.findViewById(R.id.mesInicioTextoDiag);
+        TextView anoFimTexto = (TextView) v.findViewById(R.id.anoFimTextoDiag);
+        TextView mesFimTexto = (TextView) v.findViewById(R.id.mesFimTextoDiag);
+        TextView valorTexto = (TextView) v.findViewById(R.id.valorTextoDiag);
+        TextView parcelasTexto = (TextView) v.findViewById(R.id.parcelasTextoDiag);
+
+        nomeAtividadeAux = detalhesAtividade.getString(0);
+
+        nomeTexto.setText(nomeAtividadeAux);
+        tipoTexto.setText(detalhesAtividade.getString(1));
+        anoInicioTexto.setText(detalhesAtividade.getString(2));
+        mesInicioTexto.setText(detalhesAtividade.getString(3));
+        anoFimTexto.setText(detalhesAtividade.getString(4));
+        mesFimTexto.setText(detalhesAtividade.getString(5));
+        valorTexto.setText(detalhesAtividade.getString(6));
+        parcelasTexto.setText(Integer.toString(adminBD.getContagemRegistrosPorNome(nomeAtividadeAux)));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,14 +64,30 @@ public class Atividades extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 final View detalhes = View.inflate(view.getContext(), R.layout.layout_detalhes, null);
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                final AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
                 Cursor item = (Cursor) lista.getItemAtPosition(i);
                 int id = item.getInt(0);
 
                 builder.setTitle("Detalhes")
                         .setView(detalhes)
-                        .setCancelable(false);
+                        .setCancelable(true)
+                        .create();
+
+                popularDetalhes(id, detalhes);
+
+                Button removerAtividade = (Button) detalhes.findViewById(R.id.removerTudoB);
+
+                final AlertDialog a = builder.show();
+
+                removerAtividade.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        adminBD.deletarTodasAtividades(nomeAtividadeAux);
+                        atualizarLista();
+                        a.dismiss();
+                    }
+                });
             }
         });
 
@@ -166,8 +208,6 @@ public class Atividades extends AppCompatActivity {
             if (mesInicio.equals(mesFim))
                 adminBD.adicionarAtividade(nome, tipo, anoInicio, mesInicio, anoInicio, anoInicio, mesInicio, mesFim, valor);
             else {
-                int limI = meses.get(mesInicio);
-                int limS = meses.get(mesFim);
                 for (int i = meses.get(mesInicio); i <= meses.get(mesFim); i++) {
                     String mes = "";
 
@@ -254,6 +294,7 @@ public class Atividades extends AppCompatActivity {
         return adminBD.isNomeUnico(nome);
     }
 
+    String nomeAtividadeAux;
     Button adicionarAtividade;
     ListView lista;
     AdministradorBD adminBD;
