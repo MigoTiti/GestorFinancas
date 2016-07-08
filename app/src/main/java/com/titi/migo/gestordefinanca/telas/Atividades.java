@@ -6,7 +6,11 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -20,6 +24,7 @@ import android.widget.TextView;
 import com.titi.migo.gestordefinanca.R;
 import com.titi.migo.gestordefinanca.util.AdministradorBD;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Atividades extends AppCompatActivity {
@@ -49,7 +54,17 @@ public class Atividades extends AppCompatActivity {
         parcelasTexto.setText(Integer.toString(adminBD.getContagemRegistrosPorNome(nomeAtividadeAux)));
     }
 
-    private void removerParcelas() {
+    private void removerParcelas(ArrayList<Integer> linhas, View v) {
+        final ListView lista = (ListView) v.findViewById(R.id.listaParcela);
+
+        for (Integer i : linhas){
+            Cursor aux = (Cursor) lista.getItemAtPosition(i);
+            aux.moveToNext();
+            String mes = aux.getString(4);
+            String ano = aux.getString(3);
+
+            adminBD.deletarAtividadePorData(nomeAtividadeAux,ano,mes);
+        }
 
     }
 
@@ -90,6 +105,7 @@ public class Atividades extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         adminBD.deletarTodasAtividades(nomeAtividadeAux);
+                        adminBD.removerNomeUnico(nomeAtividadeAux);
                         atualizarLista();
                         a.dismiss();
                     }
@@ -107,13 +123,13 @@ public class Atividades extends AppCompatActivity {
                                 .setCancelable(false)
                                 .create();
 
-                        ListView listaParcelas = (ListView) removerParcela.findViewById(R.id.listaParcela);
+                        final ListView listaParcelas = (ListView) removerParcela.findViewById(R.id.listaParcela);
                         final Cursor atividades = adminBD.getAtividadesPorNome(nomeAtividadeAux);
 
                         String[] colunas = new String[]{"ano", "mes", "valor"};
                         int[] widgets = new int[]{R.id.anoListaParcela, R.id.mesListaParcela, R.id.valorListaParcela};
 
-                        SimpleCursorAdapter adapter = new SimpleCursorAdapter(view.getContext(), R.layout.lista_parcelas,
+                        final SimpleCursorAdapter adapter = new SimpleCursorAdapter(view.getContext(), R.layout.lista_parcelas,
                                 atividades, colunas, widgets, 0);
 
                         listaParcelas.setAdapter(adapter);
@@ -123,10 +139,26 @@ public class Atividades extends AppCompatActivity {
 
                         final AlertDialog dialogo = construtor.show();
 
+                        final ArrayList<Integer> linhasEscolhidas = new ArrayList<Integer>();
+
+                        listaParcelas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                if (!linhasEscolhidas.contains(i)) {
+                                    linhasEscolhidas.add(i);
+                                    listaParcelas.setItemChecked(i, true);
+                                }else {
+                                    linhasEscolhidas.remove(new Integer(i));
+                                    listaParcelas.setItemChecked(i, false);
+                                }
+                            }
+                        });
+
                         removerParcelas.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                removerParcelas();
+                                removerParcelas(linhasEscolhidas, removerParcela);
                                 dialogo.dismiss();
                             }
                         });

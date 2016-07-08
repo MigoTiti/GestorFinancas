@@ -82,6 +82,10 @@ public class AdministradorBD extends SQLiteOpenHelper {
         this.getWritableDatabase().insert("nomesunicos", null, contentValues);
     }
 
+    public void removerNomeUnico(String nome){
+        this.getWritableDatabase().execSQL("DELETE FROM nomesunicos WHERE nome = ? ", new String[]{nome});
+    }
+
     public void adicionarAtividade(String nome, String tipo, String ano, String mes, String anoInicio, String anoFim
             , String mesInicio, String mesFim, double valor) {
         ContentValues contentValues = new ContentValues();
@@ -114,6 +118,10 @@ public class AdministradorBD extends SQLiteOpenHelper {
 
     public void deletarAtividade(int id) {
         this.getWritableDatabase().delete("atividade", "_id = ? ", new String[]{Integer.toString(id)});
+    }
+
+    public void deletarAtividadePorData(String nome, String ano, String mes){
+        this.getWritableDatabase().execSQL("DELETE FROM atividade WHERE nome = ? AND ano = ? AND mes = ? ", new String[]{nome, ano, mes});
     }
 
     public void deletarTodasAtividades(String nome) {
