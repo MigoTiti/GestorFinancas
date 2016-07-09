@@ -25,7 +25,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:text="Nome"
-        android:textSize="25dp" />
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/textViewValor"
@@ -35,7 +35,7 @@
         android:layout_marginLeft="30dp"
         android:layout_toEndOf="@+id/textViewID"
         android:text="Valor"
-        android:textSize="25dp" />
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/textView14"
@@ -45,7 +45,7 @@
         android:layout_marginStart="83dp"
         android:layout_toEndOf="@+id/textViewValor"
         android:text="Tipo"
-        android:textSize="25dp" />
+        android:textSize="25sp" />
 
     <ListView
         android:id="@+id/listView"

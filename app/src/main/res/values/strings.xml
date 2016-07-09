@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Gestor de finança</string>
     <string name="title_activity_atividades">atividades</string>
+    <string name="nome_da_atividade">Nome da atividade</string>
+    <string name="ano_de_inicio">Ano de início</string>
+    <string name="mes_de_inicio">Mês de início</string>
+    <string name="valor_por_mes">Valor por mês (R$)</string>
+    <string name="ganho">Ganho</string>
 </resources>

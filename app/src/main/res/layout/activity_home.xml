@@ -10,134 +10,134 @@
     tools:context=".telas.Home">
 
     <Spinner
+        android:id="@+id/spinnerMes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/spinnerMes"
-        android:layout_marginTop="23dp"
-        android:spinnerMode="dropdown"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true" />
+        android:layout_marginTop="23dp"
+        android:spinnerMode="dropdown" />
 
     <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/spinnerAno"
-        android:spinnerMode="dropdown"
-        android:layout_marginTop="23dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/spinnerMes"
-        android:layout_alignParentStart="true" />
+        android:layout_marginTop="23dp"
+        android:spinnerMode="dropdown" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mês e ano"
         android:id="@+id/textView"
-        android:textSize="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Total de ganhos"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Mês e ano"
+        android:textSize="40sp" />
+
+    <TextView
         android:id="@+id/textView2"
-        android:layout_below="@+id/spinnerAno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_below="@+id/spinnerAno"
         android:layout_marginTop="26dp"
-        android:textSize="20dp" />
+        android:text="Total de ganhos"
+        android:textSize="20sp" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Total de perdas"
         android:id="@+id/textView3"
-        android:layout_alignTop="@+id/textView2"
-        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:textSize="20dp" />
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/textView2"
+        android:text="Total de perdas"
+        android:textSize="20sp" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
         android:id="@+id/quantiaGanho"
-        android:layout_marginTop="24dp"
-        android:layout_below="@+id/textView2"
-        android:layout_toRightOf="@+id/textView5"
-        android:layout_toEndOf="@+id/textView5" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="R$ "
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="24dp"
+        android:layout_toEndOf="@+id/textView5"
+        android:layout_toRightOf="@+id/textView5"
+        android:text="New Text" />
+
+    <TextView
         android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/quantiaGanho"
         android:layout_alignLeft="@+id/textView3"
-        android:layout_alignStart="@+id/textView3" />
+        android:layout_alignStart="@+id/textView3"
+        android:text="R$ " />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Quantia disponível para gasto"
         android:id="@+id/textView6"
-        android:layout_marginTop="30dp"
-        android:textSize="22dp"
-        android:layout_below="@+id/quantiaGanho"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:layout_below="@+id/quantiaGanho"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="Quantia disponível para gasto"
+        android:textSize="22sp" />
+
+    <TextView
         android:id="@+id/quantiaDisponivel"
-        android:textSize="25sp"
-        android:layout_below="@+id/textView6"
-        android:layout_toEndOf="@+id/textView2"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentLeft="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="false"
         android:layout_alignParentEnd="false"
+        android:layout_alignParentLeft="false"
         android:layout_alignParentStart="false"
-        android:layout_marginTop="6dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="R$ "
-        android:id="@+id/textView4"
-        android:textSize="25dp"
-        android:layout_alignTop="@+id/quantiaDisponivel"
-        android:layout_toStartOf="@+id/quantiaDisponivel" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="R$ "
-        android:id="@+id/textView5"
-        android:layout_alignTop="@+id/quantiaGanho"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_alignParentTop="false"
+        android:layout_below="@+id/textView6"
+        android:layout_marginTop="6dp"
+        android:layout_toEndOf="@+id/textView2"
         android:text="New Text"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/quantiaDisponivel"
+        android:layout_toStartOf="@+id/quantiaDisponivel"
+        android:text="R$ "
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/quantiaGanho"
+        android:text="R$ " />
+
+    <TextView
         android:id="@+id/quantiaPerda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@+id/text1"
+        android:layout_toEndOf="@+id/text1"
         android:layout_toRightOf="@+id/text1"
-        android:layout_toEndOf="@+id/text1" />
+        android:text="New Text" />
 
     <LinearLayout
         android:id="@+id/botaoConf"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:background="@drawable/botao_circular"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:clickable="true"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/botao_circular"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -152,12 +152,12 @@
         android:id="@+id/botaoAdicionar"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:background="@drawable/botao_circular"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:clickable="true"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:background="@drawable/botao_circular"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"

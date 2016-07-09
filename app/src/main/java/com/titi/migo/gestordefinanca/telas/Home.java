@@ -13,6 +13,12 @@ import com.titi.migo.gestordefinanca.util.AdministradorBD;
 
 public class Home extends AppCompatActivity {
 
+    LinearLayout conf;
+    private AdministradorBD adminBD;
+    private Spinner spinnerAnos;
+    private Spinner spinnerMeses;
+    private LinearLayout adicionar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,10 +52,4 @@ public class Home extends AppCompatActivity {
             }
         });
     }
-
-    AdministradorBD adminBD;
-    Spinner spinnerAnos;
-    Spinner spinnerMeses;
-    LinearLayout adicionar;
-    LinearLayout conf;
 }

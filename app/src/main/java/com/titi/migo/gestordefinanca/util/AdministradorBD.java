@@ -8,8 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class AdministradorBD extends SQLiteOpenHelper {
 
-    public final static String NOME_BD = "gestorDB.db";
-    public final static int VERSAO_BD = 1;
+    private final static String NOME_BD = "gestorDB.db";
+    private final static int VERSAO_BD = 1;
 
     public AdministradorBD(Context context) {
         super(context, NOME_BD, null, VERSAO_BD);

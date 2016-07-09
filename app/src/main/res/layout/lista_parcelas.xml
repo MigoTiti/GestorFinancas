@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     android:weightSum="1" >
 
     <TextView
+        android:id="@+id/anoListaParcela"
         android:layout_width="35dp"
         android:layout_height="wrap_content"
-        android:text="Ano"
-        android:id="@+id/anoListaParcela"
+        android:layout_marginLeft="15dp"
         android:layout_weight="0.23"
-        android:textSize="20dp"
-        android:layout_marginLeft="15dp" />
+        android:text="Ano"
+        android:textSize="20sp" />
 
     <TextView
+        android:id="@+id/mesListaParcela"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:text="Mês"
-        android:id="@+id/mesListaParcela"
+        android:layout_marginLeft="20dp"
         android:layout_weight="0.31"
-        android:textSize="20dp"
-        android:layout_marginLeft="20dp" />
+        android:text="Mês"
+        android:textSize="20sp" />
 
     <TextView
+        android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="R$ "
-        android:id="@+id/textView8"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
     <TextView
+        android:id="@+id/valorListaParcela"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:text="Valor"
-        android:id="@+id/valorListaParcela"
         android:layout_weight="0.23"
-        android:textSize="20dp" />
+        android:text="Valor"
+        android:textSize="20sp" />
 
 </LinearLayout>
