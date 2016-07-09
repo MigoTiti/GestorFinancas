@@ -4,13 +4,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.ActionMode;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,9 +26,16 @@ import java.util.HashMap;
 
 public class Atividades extends AppCompatActivity {
 
-    private void popularDetalhes(int id, View v) {
-        Cursor detalhesAtividade = adminBD.getAtividadePorIDGeral(id);
+    String nomeAtividadeAux;
+    Button adicionarAtividade;
+    ListView lista;
+    AdministradorBD adminBD;
+
+    private void popularDetalhes(String nome, View v) {
+        Cursor detalhesAtividade = adminBD.getAtividadesPorNome(nome);
         detalhesAtividade.moveToNext();
+
+        DatabaseUtils.dumpCursorToString(detalhesAtividade);
 
         TextView nomeTexto = (TextView) v.findViewById(R.id.nomeTextoDiag);
         TextView tipoTexto = (TextView) v.findViewById(R.id.tipoTextoDiag);
@@ -42,15 +46,15 @@ public class Atividades extends AppCompatActivity {
         TextView valorTexto = (TextView) v.findViewById(R.id.valorTextoDiag);
         TextView parcelasTexto = (TextView) v.findViewById(R.id.parcelasTextoDiag);
 
-        nomeAtividadeAux = detalhesAtividade.getString(0);
+        nomeAtividadeAux = nome;
 
         nomeTexto.setText(nomeAtividadeAux);
-        tipoTexto.setText(detalhesAtividade.getString(1));
-        anoInicioTexto.setText(detalhesAtividade.getString(2));
-        mesInicioTexto.setText(detalhesAtividade.getString(3));
-        anoFimTexto.setText(detalhesAtividade.getString(4));
-        mesFimTexto.setText(detalhesAtividade.getString(5));
-        valorTexto.setText(detalhesAtividade.getString(6));
+        tipoTexto.setText(detalhesAtividade.getString(2));
+        anoInicioTexto.setText(detalhesAtividade.getString(5));
+        mesInicioTexto.setText(detalhesAtividade.getString(6));
+        anoFimTexto.setText(detalhesAtividade.getString(7));
+        mesFimTexto.setText(detalhesAtividade.getString(8));
+        valorTexto.setText(detalhesAtividade.getString(9));
         parcelasTexto.setText(Integer.toString(adminBD.getContagemRegistrosPorNome(nomeAtividadeAux)));
     }
 
@@ -59,7 +63,6 @@ public class Atividades extends AppCompatActivity {
 
         for (Integer i : linhas){
             Cursor aux = (Cursor) lista.getItemAtPosition(i);
-            aux.moveToNext();
             String mes = aux.getString(4);
             String ano = aux.getString(3);
 
@@ -85,14 +88,14 @@ public class Atividades extends AppCompatActivity {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
                 Cursor item = (Cursor) lista.getItemAtPosition(i);
-                int id = item.getInt(0);
+                String nome = item.getString(1);
 
                 builder.setTitle("Detalhes")
                         .setView(detalhes)
                         .setCancelable(true)
                         .create();
 
-                popularDetalhes(id, detalhes);
+                popularDetalhes(nome, detalhes);
 
                 final Button removerAtividade = (Button) detalhes.findViewById(R.id.removerTudoB);
                 Button removerParcela = (Button) detalhes.findViewById(R.id.removerParcelaB);
@@ -139,7 +142,7 @@ public class Atividades extends AppCompatActivity {
 
                         final AlertDialog dialogo = construtor.show();
 
-                        final ArrayList<Integer> linhasEscolhidas = new ArrayList<Integer>();
+                        final ArrayList<Integer> linhasEscolhidas = new ArrayList<>();
 
                         listaParcelas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -175,7 +178,99 @@ public class Atividades extends AppCompatActivity {
                 editarTudo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        final View dialogoEditarTudo = View.inflate(view.getContext(), R.layout.layout_adicionar_atividade, null);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
+                        builder.setTitle("Editar atividade")
+                                .setView(dialogoEditarTudo)
+                                .setCancelable(false);
+
+                        String[] meses = new String[]{"Janeiro", "Fevereiro", "Março", "Abril", "Maio",
+                                "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
+                        String[] anos = new String[]{"2016", "2017", "2018", "2019",
+                                "2020", "2021", "2022"};
+
+                        ArrayAdapter<String> adaptadorMeses = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, meses);
+                        adaptadorMeses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                        ArrayAdapter<String> adaptadorAnos = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, anos);
+                        adaptadorMeses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                        final Spinner anoInicio = (Spinner) dialogoEditarTudo.findViewById(R.id.spinnerAnoInicioAdicionar);
+                        final Spinner anoFim = (Spinner) dialogoEditarTudo.findViewById(R.id.spinnerAnoTerminoAdicionar);
+
+                        anoInicio.setAdapter(adaptadorAnos);
+                        anoFim.setAdapter(adaptadorAnos);
+
+                        final Spinner mesInicio = (Spinner) dialogoEditarTudo.findViewById(R.id.spinnerMesInicioAdicionar);
+                        final Spinner mesFim = (Spinner) dialogoEditarTudo.findViewById(R.id.spinnerMesTerminoAdicionar);
+
+                        mesInicio.setAdapter(adaptadorMeses);
+                        mesFim.setAdapter(adaptadorMeses);
+
+                        final Cursor atividades = adminBD.getAtividadesPorNome(nomeAtividadeAux);
+                        atividades.moveToNext();
+
+                        anoInicio.setSelection(procurarElemento(atividades.getString(5), anos));
+                        anoFim.setSelection(procurarElemento(atividades.getString(7), anos));
+                        mesInicio.setSelection(procurarElemento(atividades.getString(6), meses));
+                        mesFim.setSelection(procurarElemento(atividades.getString(8), meses));
+
+                        EditText nome = (EditText) dialogoEditarTudo.findViewById(R.id.nome);
+                        EditText valor = (EditText) dialogoEditarTudo.findViewById(R.id.valor);
+
+                        valor.setText(atividades.getString(9));
+                        nome.setText(atividades.getString(1));
+
+                        Switch s = (Switch) dialogoEditarTudo.findViewById(R.id.switchGanho);
+
+                        if (atividades.getString(2).equals("Ganho"))
+                            s.setChecked(true);
+                        else
+                            s.setChecked(false);
+
+                        builder.setPositiveButton("Editar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                EditText nome = (EditText) dialogoEditarTudo.findViewById(R.id.nome);
+                                String nomeTexto = nome.getText().toString();
+
+                                if (!checarNome(nomeTexto)) {
+                                    EditText valor = (EditText) dialogoEditarTudo.findViewById(R.id.valor);
+                                    String valorTexto = valor.getText().toString();
+
+                                    try {
+                                        double valorAux = Double.parseDouble(valorTexto);
+                                        String anoInicioTexto = anoInicio.getSelectedItem().toString();
+                                        String anoFimTexto = anoFim.getSelectedItem().toString();
+                                        String mesFimTexto = mesFim.getSelectedItem().toString();
+                                        String mesInicioTexto = mesInicio.getSelectedItem().toString();
+                                        Switch s = (Switch) dialogoEditarTudo.findViewById(R.id.switchGanho);
+
+                                        String tipo;
+                                        if (s.isChecked())
+                                            tipo = "Ganho";
+                                        else
+                                            tipo = "Perda";
+
+                                        adicionarAtividade(nomeTexto, tipo, anoInicioTexto, anoFimTexto,
+                                                mesInicioTexto, mesFimTexto, valorAux);
+                                        atualizarLista();
+                                    } catch (NumberFormatException e) {
+                                        criarDialogoErro(dialogoEditarTudo.getContext(), "Digite um valor válido.");
+                                        valor.setText("");
+                                    }
+                                } else {
+                                    criarDialogoErro(dialogoEditarTudo.getContext(), "Nome já existente no banco de dados.");
+                                    nome.setText("");
+                                    dialog.cancel();
+                                }
+                            }
+                        })
+                                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                }).show();
                     }
                 });
 
@@ -268,6 +363,14 @@ public class Atividades extends AppCompatActivity {
                         }).show();
             }
         });
+    }
+
+    private int procurarElemento(String elemento, String[] array) {
+        for (int i = 0; i < array.length; i++) {
+            if (elemento.equals(array[i]))
+                return i;
+        }
+        return 0;
     }
 
     private void criarDialogoErro(Context c, String mensagem) {
@@ -374,7 +477,7 @@ public class Atividades extends AppCompatActivity {
     private void atualizarLista() {
         final Cursor atividades = adminBD.getAtividadesDistintas();
 
-        String[] colunas = new String[]{"_id", "valor", "tipo"};
+        String[] colunas = new String[]{"nome", "valor", "tipo"};
         int[] widgets = new int[]{R.id.idTexto, R.id.valorTexto, R.id.tipoTexto};
 
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.lista_atividade,
@@ -387,9 +490,4 @@ public class Atividades extends AppCompatActivity {
     private boolean checarNome(String nome) {
         return adminBD.isNomeUnico(nome);
     }
-
-    String nomeAtividadeAux;
-    Button adicionarAtividade;
-    ListView lista;
-    AdministradorBD adminBD;
 }

@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class AdministradorBD extends SQLiteOpenHelper {
 
+    public final static String NOME_BD = "gestorDB.db";
+    public final static int VERSAO_BD = 1;
+
     public AdministradorBD(Context context) {
         super(context, NOME_BD, null, VERSAO_BD);
     }
@@ -49,11 +52,6 @@ public class AdministradorBD extends SQLiteOpenHelper {
 
     public Cursor getAtividadePorID(int id) {
         return this.getReadableDatabase().rawQuery("SELECT nome, tipo, ano, mes, anoinicio, mesinicio, anofim, mesfim, valor" +
-                " FROM atividade WHERE _id = ?", new String[]{Integer.toString(id)});
-    }
-
-    public Cursor getAtividadePorIDGeral(int id) {
-        return this.getReadableDatabase().rawQuery("SELECT nome, tipo, anoinicio, mesinicio, anofim, mesfim, valor" +
                 " FROM atividade WHERE _id = ?", new String[]{Integer.toString(id)});
     }
 
@@ -127,7 +125,4 @@ public class AdministradorBD extends SQLiteOpenHelper {
     public void deletarTodasAtividades(String nome) {
         this.getWritableDatabase().execSQL("DELETE FROM atividade WHERE nome = ? ", new String[]{nome});
     }
-
-    public final static String NOME_BD = "gestorDB.db";
-    public final static int VERSAO_BD = 1;
 }
