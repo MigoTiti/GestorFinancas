@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.titi.migo.gestordefinanca.R;
 import com.titi.migo.gestordefinanca.util.AdministradorBD;
@@ -49,7 +51,80 @@ public class Home extends AppCompatActivity {
             public void onClick(View view) {
                 Intent atividade1 = new Intent(Home.this, Atividades.class);
                 startActivity(atividade1);
+                finish();
             }
         });
+
+        spinnerMeses.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView displayGanhos = (TextView) findViewById(R.id.quantiaGanho);
+                displayGanhos.setText(Double.toString(adminBD.getSomatoriaAtividade(spinnerMeses.getSelectedItem().toString(),
+                        spinnerAnos.getSelectedItem().toString(), "Ganho")));
+
+                TextView displayPerdas = (TextView) findViewById(R.id.quantiaPerda);
+                displayPerdas.setText(Double.toString(adminBD.getSomatoriaAtividade(spinnerMeses.getSelectedItem().toString(),
+                        spinnerAnos.getSelectedItem().toString(), "Perda")));
+
+                TextView displayTotal = (TextView) findViewById(R.id.quantiaDisponivel);
+                displayTotal.setText(Double.toString(adminBD.getQuantia(spinnerMeses.getSelectedItem().toString(),
+                        spinnerAnos.getSelectedItem().toString())));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                TextView displayGanhos = (TextView) findViewById(R.id.quantiaGanho);
+                displayGanhos.setText("0,00");
+
+                TextView displayPerdas = (TextView) findViewById(R.id.quantiaPerda);
+                displayPerdas.setText("0,00");
+
+                TextView displayTotal = (TextView) findViewById(R.id.quantiaDisponivel);
+                displayTotal.setText("0,00");
+            }
+        });
+
+        spinnerAnos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView displayGanhos = (TextView) findViewById(R.id.quantiaGanho);
+                displayGanhos.setText(Double.toString(adminBD.getSomatoriaAtividade(spinnerMeses.getSelectedItem().toString(),
+                        spinnerAnos.getSelectedItem().toString(), "Ganho")));
+
+                TextView displayPerdas = (TextView) findViewById(R.id.quantiaPerda);
+                displayPerdas.setText(Double.toString(adminBD.getSomatoriaAtividade(spinnerMeses.getSelectedItem().toString(),
+                        spinnerAnos.getSelectedItem().toString(), "Perda")));
+
+                TextView displayTotal = (TextView) findViewById(R.id.quantiaDisponivel);
+                displayTotal.setText(Double.toString(adminBD.getQuantia(spinnerMeses.getSelectedItem().toString(),
+                        spinnerAnos.getSelectedItem().toString())));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                TextView displayGanhos = (TextView) findViewById(R.id.quantiaGanho);
+                displayGanhos.setText("0,00");
+
+                TextView displayPerdas = (TextView) findViewById(R.id.quantiaPerda);
+                displayPerdas.setText("0,00");
+
+                TextView displayTotal = (TextView) findViewById(R.id.quantiaDisponivel);
+                displayTotal.setText("0,00");
+            }
+        });
+
+        TextView displayGanhos = (TextView) findViewById(R.id.quantiaGanho);
+        displayGanhos.setText(Double.toString(adminBD.getSomatoriaAtividade(spinnerMeses.getSelectedItem().toString(),
+                spinnerAnos.getSelectedItem().toString(), "Ganho")));
+
+        TextView displayPerdas = (TextView) findViewById(R.id.quantiaPerda);
+        displayPerdas.setText(Double.toString(adminBD.getSomatoriaAtividade(spinnerMeses.getSelectedItem().toString(),
+                spinnerAnos.getSelectedItem().toString(), "Perda")));
+
+        TextView displayTotal = (TextView) findViewById(R.id.quantiaDisponivel);
+        displayTotal.setText(Double.toString(adminBD.getQuantia(spinnerMeses.getSelectedItem().toString(),
+                spinnerAnos.getSelectedItem().toString())));
     }
+
+
 }

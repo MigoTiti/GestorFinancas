@@ -3,6 +3,7 @@ package com.titi.migo.gestordefinanca.telas;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.os.Bundle;
@@ -27,12 +28,12 @@ import java.util.HashMap;
 public class Atividades extends AppCompatActivity {
 
     private String nomeAtividadeAux;
-    private Button adicionarAtividade;
-    private ListView lista;
     private AdministradorBD adminBD;
 
     private void popularDetalhes(String nome, View v) {
         Cursor detalhesAtividade = adminBD.getAtividadesPorNome(nome);
+        Cursor detalhesNome = adminBD.getNomeUnico(nome);
+        detalhesNome.moveToNext();
         detalhesAtividade.moveToNext();
 
         DatabaseUtils.dumpCursorToString(detalhesAtividade);
@@ -50,11 +51,11 @@ public class Atividades extends AppCompatActivity {
 
         nomeTexto.setText(nomeAtividadeAux);
         tipoTexto.setText(detalhesAtividade.getString(2));
-        anoInicioTexto.setText(detalhesAtividade.getString(5));
-        mesInicioTexto.setText(detalhesAtividade.getString(6));
-        anoFimTexto.setText(detalhesAtividade.getString(7));
-        mesFimTexto.setText(detalhesAtividade.getString(8));
-        valorTexto.setText(detalhesAtividade.getString(9));
+        anoInicioTexto.setText(detalhesNome.getString(0));
+        mesInicioTexto.setText(detalhesNome.getString(2));
+        anoFimTexto.setText(detalhesNome.getString(1));
+        mesFimTexto.setText(detalhesNome.getString(3));
+        valorTexto.setText(detalhesAtividade.getString(5));
         parcelasTexto.setText(Integer.toString(adminBD.getContagemRegistrosPorNome(nomeAtividadeAux)));
     }
 
@@ -100,7 +101,6 @@ public class Atividades extends AppCompatActivity {
                 final Button removerAtividade = (Button) detalhes.findViewById(R.id.removerTudoB);
                 Button removerParcela = (Button) detalhes.findViewById(R.id.removerParcelaB);
                 Button editarTudo = (Button) detalhes.findViewById(R.id.editarTudoB);
-                Button editarParcela = (Button) detalhes.findViewById(R.id.editarParcelaB);
 
                 final AlertDialog a = builder.show();
 
@@ -191,7 +191,7 @@ public class Atividades extends AppCompatActivity {
                         EditText nome = (EditText) dialogoEditarTudo.findViewById(R.id.nomeEditarAtividade);
                         EditText valor = (EditText) dialogoEditarTudo.findViewById(R.id.valorEditarAtividade);
 
-                        valor.setText(atividades.getString(9));
+                        valor.setText(atividades.getString(5));
                         nome.setText(atividades.getString(1));
 
                         Switch s = (Switch) dialogoEditarTudo.findViewById(R.id.switchGanhoEditar);
@@ -203,16 +203,16 @@ public class Atividades extends AppCompatActivity {
 
                         builder.setPositiveButton("Editar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                EditText nome = (EditText) dialogoEditarTudo.findViewById(R.id.nome);
+                                EditText nome = (EditText) dialogoEditarTudo.findViewById(R.id.nomeEditarAtividade);
                                 String nomeTexto = nome.getText().toString();
 
                                 if (checarNomeUnico(nomeTexto)) {
-                                    EditText valor = (EditText) dialogoEditarTudo.findViewById(R.id.valor);
+                                    EditText valor = (EditText) dialogoEditarTudo.findViewById(R.id.valorEditarAtividade);
                                     String valorTexto = valor.getText().toString();
 
                                     try {
                                         double valorAux = Double.parseDouble(valorTexto);
-                                        Switch s = (Switch) dialogoEditarTudo.findViewById(R.id.switchGanho);
+                                        Switch s = (Switch) dialogoEditarTudo.findViewById(R.id.switchGanhoEditar);
 
                                         String tipo;
                                         if (s.isChecked())
@@ -220,6 +220,7 @@ public class Atividades extends AppCompatActivity {
                                         else
                                             tipo = "Perda";
 
+                                        adminBD.atualizarAtividadeGeral(nomeAtividadeAux, nomeTexto, tipo, valorAux);
                                         atualizarLista();
                                     } catch (NumberFormatException e) {
                                         criarDialogoErro(dialogoEditarTudo.getContext(), "Digite um valor válido.");
@@ -239,17 +240,10 @@ public class Atividades extends AppCompatActivity {
                                 }).show();
                     }
                 });
-
-                editarParcela.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                    }
-                });
             }
         });
 
-        adicionarAtividade = (Button) findViewById(R.id.adicionarAtividade);
+        Button adicionarAtividade = (Button) findViewById(R.id.adicionarAtividade);
         adicionarAtividade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -331,6 +325,13 @@ public class Atividades extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent home = new Intent(this, Home.class);
+        startActivity(home);
+        finish();
+    }
+
     private void criarDialogoErro(Context c, String mensagem) {
         final AlertDialog.Builder dlg = new AlertDialog.Builder(c);
         dlg.setMessage(mensagem);
@@ -346,7 +347,7 @@ public class Atividades extends AppCompatActivity {
 
     private void adicionarAtividade(String nome, String tipo, String anoInicio, String anoFim,
                                     String mesInicio, String mesFim, double valor) {
-        adminBD.adicionarNomeUnico(nome);
+        adminBD.adicionarNomeUnico(nome, anoInicio, anoFim, mesInicio, mesFim);
 
         HashMap<String, Integer> meses = new HashMap<>();
         meses.put("Janeiro", 1);
@@ -362,9 +363,35 @@ public class Atividades extends AppCompatActivity {
         meses.put("Novembro", 11);
         meses.put("Dezembro", 12);
 
+        Cursor aux = adminBD.procurarRegistro(mesInicio, anoInicio);
+        aux.moveToNext();
+        int idInicial = aux.getInt(0);
+
+        aux = adminBD.procurarRegistro(mesFim, anoFim);
+        aux.moveToNext();
+        int idFinal = aux.getInt(0);
+
+        double acumulador = 0;
+        boolean primeiraParcela = true;
+        for (int i = idInicial; i <= idFinal; i++) {
+            if (tipo.equals("Ganho")) {
+                adminBD.atualizarRegistroPorID(i, valor, primeiraParcela);
+                primeiraParcela = false;
+            } else {
+                adminBD.atualizarRegistroPorID(i, -valor, primeiraParcela);
+                primeiraParcela = false;
+            }
+            acumulador += valor;
+        }
+
+        if (tipo.equals("Ganho"))
+            adminBD.atualizarRegistroAPartirDe(idFinal, acumulador);
+        else
+            adminBD.atualizarRegistroAPartirDe(idFinal, -acumulador);
+
         if (anoInicio.equals(anoFim)) {
             if (mesInicio.equals(mesFim))
-                adminBD.adicionarAtividade(nome, tipo, anoInicio, mesInicio, anoInicio, anoInicio, mesInicio, mesFim, valor);
+                adminBD.adicionarAtividade(nome, tipo, anoInicio, mesInicio, valor);
             else {
                 for (int i = meses.get(mesInicio); i <= meses.get(mesFim); i++) {
                     String mes = "";
@@ -376,7 +403,7 @@ public class Atividades extends AppCompatActivity {
                         }
                     }
 
-                    adminBD.adicionarAtividade(nome, tipo, anoInicio, mes, anoInicio, anoInicio, mesInicio, mesFim, valor);
+                    adminBD.adicionarAtividade(nome, tipo, anoInicio, mes, valor);
                 }
             }
         } else {
@@ -391,7 +418,7 @@ public class Atividades extends AppCompatActivity {
                         break;
                     }
 
-                adminBD.adicionarAtividade(nome, tipo, anoInicio, mes, anoInicio, anoFim, mesInicio, mesFim, valor);
+                adminBD.adicionarAtividade(nome, tipo, anoInicio, mes, valor);
             }
 
             nVoltas--;
@@ -407,7 +434,7 @@ public class Atividades extends AppCompatActivity {
                             break;
                         }
 
-                    adminBD.adicionarAtividade(nome, tipo, Integer.toString(Integer.parseInt(anoInicio) + nVoltasInv), mes, anoInicio, anoFim, mesInicio, mesFim, valor);
+                    adminBD.adicionarAtividade(nome, tipo, Integer.toString(Integer.parseInt(anoInicio) + nVoltasInv), mes, valor);
                 }
                 nVoltas--;
                 nVoltasInv++;
@@ -415,7 +442,7 @@ public class Atividades extends AppCompatActivity {
 
             if (meses.get(mesFim) == 1) {
                 adminBD.adicionarAtividade(nome, tipo, Integer.toString(Integer.parseInt(anoInicio) + nVoltasInv),
-                        "Janeiro", anoInicio, anoFim, mesInicio, mesFim, valor);
+                        "Janeiro", valor);
             } else {
                 for (int i = 1; i <= meses.get(mesFim); i++) {
                     String mes = "";
@@ -426,7 +453,7 @@ public class Atividades extends AppCompatActivity {
                             break;
                         }
 
-                    adminBD.adicionarAtividade(nome, tipo, Integer.toString(Integer.parseInt(anoInicio) + nVoltasInv), mes, anoInicio, anoFim, mesInicio, mesFim, valor);
+                    adminBD.adicionarAtividade(nome, tipo, Integer.toString(Integer.parseInt(anoInicio) + nVoltasInv), mes, valor);
                 }
             }
         }
@@ -441,7 +468,7 @@ public class Atividades extends AppCompatActivity {
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.lista_atividade,
                 atividades, colunas, widgets, 0);
 
-        lista = (ListView) findViewById(R.id.listView);
+        ListView lista = (ListView) findViewById(R.id.listView);
         lista.setAdapter(adapter);
     }
 
