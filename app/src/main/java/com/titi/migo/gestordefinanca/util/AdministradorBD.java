@@ -78,17 +78,58 @@ public class AdministradorBD extends SQLiteOpenHelper {
     public double getSomatoriaAtividade(String mes, String ano, String tipo) {
         Cursor aux = this.getReadableDatabase().rawQuery("SELECT (SELECT sum(valor) FROM atividade WHERE mes = ? AND ano = ? AND tipo = ?) soma " +
                 "FROM atividade", new String[]{mes, ano, tipo});
-        if (aux.moveToNext())
-            return aux.getDouble(0);
-        else
+        if (aux.moveToNext()) {
+            double d = aux.getDouble(0);
+            aux.close();
+            close();
+            return d;
+        } else {
+            aux.close();
+            close();
             return 0;
+        }
+    }
+
+    public void resetBanco() {
+        SQLiteDatabase bd = this.getWritableDatabase();
+        bd.execSQL("DELETE FROM atividade ");
+        bd.execSQL("DELETE FROM nomesunicos ");
+        bd.execSQL("DELETE FROM valoresmes ");
+
+        HashMap<Integer, String> meses = new HashMap<>();
+        meses.put(1, "Janeiro");
+        meses.put(2, "Fevereiro");
+        meses.put(3, "Março");
+        meses.put(4, "Abril");
+        meses.put(5, "Maio");
+        meses.put(6, "Junho");
+        meses.put(7, "Julho");
+        meses.put(8, "Agosto");
+        meses.put(9, "Setembro");
+        meses.put(10, "Outubro");
+        meses.put(11, "Novembro");
+        meses.put(12, "Dezembro");
+
+        for (int i = 2016; i <= 2022; i++) {
+            for (int j = 1; j <= 12; j++) {
+                ContentValues c = new ContentValues();
+                c.put("ano", Integer.toString(i));
+                c.put("mes", meses.get(j));
+                bd.insert("valoresmes", null, c);
+            }
+        }
+
+        bd.close();
     }
 
     public double getQuantia(String mes, String ano) {
         Cursor aux = this.getReadableDatabase().rawQuery("SELECT quantiadisponivel FROM valoresmes WHERE mes = ? AND ano = ? ",
                 new String[]{mes, ano});
         aux.moveToNext();
-        return aux.getDouble(0);
+        double d = aux.getDouble(0);
+        aux.close();
+        close();
+        return d;
     }
 
     public void atualizarRegistroPorID(int id, double valor, boolean primeiraParcela) {
@@ -98,17 +139,21 @@ public class AdministradorBD extends SQLiteOpenHelper {
 
         if (id == 1 || primeiraParcela) {
             double valorOriginal = aux.getDouble(0);
+            aux.close();
 
             ContentValues c = new ContentValues();
             c.put("quantiadisponivel", valorOriginal + valor);
 
             this.getWritableDatabase().update("valoresmes", c, "_id = ?", new String[]{Integer.toString(id)});
+            close();
         } else {
+            aux.close();
             Cursor aux2 = this.getReadableDatabase().rawQuery("SELECT quantiadisponivel FROM valoresmes WHERE _id = ? ",
                     new String[]{Integer.toString(id - 1)});
             aux2.moveToNext();
 
             double valorOriginal = aux2.getDouble(0);
+            aux2.close();
 
             ContentValues c = new ContentValues();
             c.put("quantiadisponivel", valorOriginal + valor);
@@ -123,22 +168,23 @@ public class AdministradorBD extends SQLiteOpenHelper {
         aux.moveToNext();
 
         int maiorID = aux.getInt(0);
-
+        aux.close();
         SQLiteDatabase b = getReadableDatabase();
+
+        Cursor aux2 = b.rawQuery("SELECT quantiadisponivel FROM valoresmes WHERE _id = ?", new String[]{Integer.toString(id)});
         for (int i = id + 1; i <= maiorID; i++) {
-            Cursor aux2 = b.rawQuery("SELECT quantiadisponivel FROM valoresmes WHERE _id = ?", new String[]{Integer.toString(i)});
+            aux2 = b.rawQuery("SELECT quantiadisponivel FROM valoresmes WHERE _id = ?", new String[]{Integer.toString(i)});
             aux2.moveToNext();
 
             ContentValues c = new ContentValues();
             c.put("quantiadisponivel", valor + aux2.getDouble(0));
             b.update("valoresmes", c, "_id = ? ", new String[]{Integer.toString(i)});
         }
+        aux2.close();
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase BD, int versaoAntiga, int versaoNova) {
-        BD.execSQL("DROP TABLE IF EXISTS ano");
-        BD.execSQL("DROP TABLE IF EXISTS mes");
         BD.execSQL("DROP TABLE IF EXISTS atividade");
         onCreate(BD);
     }
@@ -146,7 +192,9 @@ public class AdministradorBD extends SQLiteOpenHelper {
     public int getContagemRegistrosPorNome(String nome) {
         Cursor aux = this.getReadableDatabase().rawQuery("SELECT count(*) FROM atividade WHERE nome = ? ", new String[]{nome});
         aux.moveToNext();
-        return aux.getInt(0);
+        int i = aux.getInt(0);
+        aux.close();
+        return i;
     }
 
     public Cursor getAtividadesDistintas() {
@@ -159,7 +207,9 @@ public class AdministradorBD extends SQLiteOpenHelper {
 
     public boolean isNomeUnico(String nome) {
         Cursor aux = this.getReadableDatabase().rawQuery("SELECT nome FROM nomesunicos WHERE nome = ? ", new String[]{nome});
-        return aux.getCount() > 0;
+        int i = aux.getCount();
+        aux.close();
+        return i > 0;
     }
 
     public Cursor getNomeUnico(String nome) {

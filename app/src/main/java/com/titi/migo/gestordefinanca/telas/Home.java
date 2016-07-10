@@ -15,11 +15,9 @@ import com.titi.migo.gestordefinanca.util.AdministradorBD;
 
 public class Home extends AppCompatActivity {
 
-    LinearLayout conf;
     private AdministradorBD adminBD;
     private Spinner spinnerAnos;
     private Spinner spinnerMeses;
-    private LinearLayout adicionar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +43,21 @@ public class Home extends AppCompatActivity {
         spinnerAnos = (Spinner) findViewById(R.id.spinnerAno);
         spinnerAnos.setAdapter(adaptadorAnos);
 
-        adicionar = (LinearLayout) findViewById(R.id.botaoAdicionar);
+        LinearLayout adicionar = (LinearLayout) findViewById(R.id.botaoAdicionar);
         adicionar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent atividade1 = new Intent(Home.this, Atividades.class);
                 startActivity(atividade1);
                 finish();
+            }
+        });
+
+        LinearLayout conf = (LinearLayout) findViewById(R.id.botaoConf);
+        conf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adminBD.resetBanco();
             }
         });
 

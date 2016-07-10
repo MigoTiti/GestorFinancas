@@ -1,88 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:weightSum="1">
 
     <EditText
         android:id="@+id/nome"
-        android:inputType="text"
         android:layout_width="230dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
-        android:hint="Nome da atividade" />
+        android:layout_marginTop="16dp"
+        android:hint="Nome da atividade"
+        android:inputType="text" />
 
     <TextView
+        android:id="@+id/textView9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="  Ano de início"
-        android:id="@+id/textView9"
+        android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp" />
+        android:text="  Ano de início" />
 
     <Spinner
+        android:id="@+id/spinnerAnoInicioAdicionar"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:id="@+id/spinnerAnoInicioAdicionar" />
+        android:layout_height="30dp" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="  Mês de início"
         android:id="@+id/textView10"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp" />
-
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:id="@+id/spinnerMesInicioAdicionar" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="  Ano de término"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:text="  Mês de início" />
+
+    <Spinner
+        android:id="@+id/spinnerMesInicioAdicionar"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp" />
+
+    <TextView
         android:id="@+id/textView11"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp" />
-
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:id="@+id/spinnerAnoTerminoAdicionar" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="  Mês de término"
-        android:id="@+id/textView12"
+        android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp" />
+        android:text="  Ano de término" />
 
     <Spinner
+        android:id="@+id/spinnerAnoTerminoAdicionar"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:id="@+id/spinnerMesTerminoAdicionar" />
+        android:layout_height="30dp" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:text="  Mês de término" />
+
+    <Spinner
+        android:id="@+id/spinnerMesTerminoAdicionar"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp" />
 
     <Switch
+        android:id="@+id/switchGanho"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ganho"
-        android:id="@+id/switchGanho"
+        android:layout_marginStart="10dp"
         android:checked="true"
-        android:layout_marginStart="10dp" />
+        android:text="Ganho" />
 
     <EditText
         android:id="@+id/valor"
-        android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:fontFamily="sans-serif"
-        android:hint="Valor por mês (R$)" />
+        android:hint="Valor por mês (R$)"
+        android:inputType="text" />
 
 </LinearLayout>

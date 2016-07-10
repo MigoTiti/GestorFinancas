@@ -248,79 +248,170 @@ public class Atividades extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                final View dialogoAdicionar = View.inflate(view.getContext(), R.layout.layout_adicionar_atividade, null);
+                final View dialogoEscolha = View.inflate(view.getContext(), R.layout.layout_escolha_adicionar, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-
                 builder.setTitle("Adicionar atividade")
-                        .setMessage("Preencha todos os campos abaixo")
-                        .setView(dialogoAdicionar)
-                        .setCancelable(false);
+                        .setMessage("Escolha o tipo de atividade")
+                        .setView(dialogoEscolha)
+                        .setCancelable(true);
 
-                String[] meses = new String[]{"Janeiro", "Fevereiro", "Março", "Abril", "Maio",
-                        "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
-                String[] anos = new String[]{"2016", "2017", "2018", "2019",
-                        "2020", "2021", "2022"};
+                Button parcelado = (Button) dialogoEscolha.findViewById(R.id.parceladoB);
+                parcelado.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final View dialogoAdicionar = View.inflate(view.getContext(), R.layout.layout_adicionar_parcelado, null);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
-                ArrayAdapter<String> adaptadorMeses = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, meses);
-                adaptadorMeses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        builder.setTitle("Adicionar atividade")
+                                .setMessage("Preencha todos os campos abaixo")
+                                .setView(dialogoAdicionar)
+                                .setCancelable(false);
 
-                ArrayAdapter<String> adaptadorAnos = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, anos);
-                adaptadorMeses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        String[] meses = new String[]{"Janeiro", "Fevereiro", "Março", "Abril", "Maio",
+                                "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
+                        String[] anos = new String[]{"2016", "2017", "2018", "2019",
+                                "2020", "2021", "2022"};
 
-                final Spinner anoInicio = (Spinner) dialogoAdicionar.findViewById(R.id.spinnerAnoInicioAdicionar);
-                final Spinner anoFim = (Spinner) dialogoAdicionar.findViewById(R.id.spinnerAnoTerminoAdicionar);
+                        ArrayAdapter<String> adaptadorMeses = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, meses);
+                        adaptadorMeses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-                anoInicio.setAdapter(adaptadorAnos);
-                anoFim.setAdapter(adaptadorAnos);
+                        ArrayAdapter<String> adaptadorAnos = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, anos);
+                        adaptadorMeses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-                final Spinner mesInicio = (Spinner) dialogoAdicionar.findViewById(R.id.spinnerMesInicioAdicionar);
-                final Spinner mesFim = (Spinner) dialogoAdicionar.findViewById(R.id.spinnerMesTerminoAdicionar);
+                        final Spinner anoInicio = (Spinner) dialogoAdicionar.findViewById(R.id.spinnerAnoInicioAdicionar);
+                        final Spinner anoFim = (Spinner) dialogoAdicionar.findViewById(R.id.spinnerAnoTerminoAdicionar);
 
-                mesInicio.setAdapter(adaptadorMeses);
-                mesFim.setAdapter(adaptadorMeses);
+                        anoInicio.setAdapter(adaptadorAnos);
+                        anoFim.setAdapter(adaptadorAnos);
 
-                builder.setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        EditText nome = (EditText) dialogoAdicionar.findViewById(R.id.nome);
-                        String nomeTexto = nome.getText().toString();
+                        final Spinner mesInicio = (Spinner) dialogoAdicionar.findViewById(R.id.spinnerMesInicioAdicionar);
+                        final Spinner mesFim = (Spinner) dialogoAdicionar.findViewById(R.id.spinnerMesTerminoAdicionar);
 
-                        if (checarNomeUnico(nomeTexto)) {
-                            EditText valor = (EditText) dialogoAdicionar.findViewById(R.id.valor);
-                            String valorTexto = valor.getText().toString();
+                        mesInicio.setAdapter(adaptadorMeses);
+                        mesFim.setAdapter(adaptadorMeses);
 
-                            try {
-                                double valorAux = Double.parseDouble(valorTexto);
-                                String anoInicioTexto = anoInicio.getSelectedItem().toString();
-                                String anoFimTexto = anoFim.getSelectedItem().toString();
-                                String mesFimTexto = mesFim.getSelectedItem().toString();
-                                String mesInicioTexto = mesInicio.getSelectedItem().toString();
-                                Switch s = (Switch) dialogoAdicionar.findViewById(R.id.switchGanho);
-
-                                String tipo;
-                                if (s.isChecked())
-                                    tipo = "Ganho";
-                                else
-                                    tipo = "Perda";
-
-                                adicionarAtividade(nomeTexto, tipo, anoInicioTexto, anoFimTexto,
-                                        mesInicioTexto, mesFimTexto, valorAux);
-                                atualizarLista();
-                            } catch (NumberFormatException e) {
-                                criarDialogoErro(dialogoAdicionar.getContext(), "Digite um valor válido.");
-                                valor.setText("");
-                            }
-                        } else {
-                            criarDialogoErro(dialogoAdicionar.getContext(), "Nome já existente no banco de dados.");
-                            nome.setText("");
-                            dialog.cancel();
-                        }
-                    }
-                })
-                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        builder.setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
+                                EditText nome = (EditText) dialogoAdicionar.findViewById(R.id.nome);
+                                String nomeTexto = nome.getText().toString();
+
+                                if (checarNomeUnico(nomeTexto)) {
+                                    EditText valor = (EditText) dialogoAdicionar.findViewById(R.id.valor);
+                                    String valorTexto = valor.getText().toString();
+
+                                    try {
+                                        double valorAux = Double.parseDouble(valorTexto);
+                                        String anoInicioTexto = anoInicio.getSelectedItem().toString();
+                                        String anoFimTexto = anoFim.getSelectedItem().toString();
+                                        String mesFimTexto = mesFim.getSelectedItem().toString();
+                                        String mesInicioTexto = mesInicio.getSelectedItem().toString();
+                                        Switch s = (Switch) dialogoAdicionar.findViewById(R.id.switchGanho);
+
+                                        String tipo;
+                                        if (s.isChecked())
+                                            tipo = "Ganho";
+                                        else
+                                            tipo = "Perda";
+
+                                        adicionarAtividade(nomeTexto, tipo, anoInicioTexto, anoFimTexto,
+                                                mesInicioTexto, mesFimTexto, valorAux);
+                                        atualizarLista();
+                                    } catch (NumberFormatException e) {
+                                        criarDialogoErro(dialogoAdicionar.getContext(), "Digite um valor válido.");
+                                        valor.setText("");
+                                    }
+                                } else {
+                                    criarDialogoErro(dialogoAdicionar.getContext(), "Nome já existente no banco de dados.");
+                                    nome.setText("");
+                                    dialog.cancel();
+                                }
                             }
-                        }).show();
+                        })
+                                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                }).show();
+                    }
+                });
+
+                Button vista = (Button) dialogoEscolha.findViewById(R.id.vistaB);
+                vista.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final View dialogoAdicionar = View.inflate(view.getContext(), R.layout.layout_adicionar_avista, null);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+
+                        builder.setTitle("Adicionar atividade")
+                                .setMessage("Preencha todos os campos abaixo")
+                                .setView(dialogoAdicionar)
+                                .setCancelable(false);
+
+                        String[] meses = new String[]{"Janeiro", "Fevereiro", "Março", "Abril", "Maio",
+                                "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
+                        String[] anos = new String[]{"2016", "2017", "2018", "2019",
+                                "2020", "2021", "2022"};
+
+                        ArrayAdapter<String> adaptadorMeses = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, meses);
+                        adaptadorMeses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                        ArrayAdapter<String> adaptadorAnos = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, anos);
+                        adaptadorMeses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                        final Spinner ano = (Spinner) dialogoAdicionar.findViewById(R.id.spinnerAnoAdicionarAVista);
+
+                        ano.setAdapter(adaptadorAnos);
+
+                        final Spinner mes = (Spinner) dialogoAdicionar.findViewById(R.id.spinnerMesAdicionarAVista);
+
+                        mes.setAdapter(adaptadorMeses);
+
+                        builder.setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                EditText nome = (EditText) dialogoAdicionar.findViewById(R.id.nomeAVista);
+                                String nomeTexto = nome.getText().toString();
+
+                                if (checarNomeUnico(nomeTexto)) {
+                                    EditText valor = (EditText) dialogoAdicionar.findViewById(R.id.valorAVista);
+                                    String valorTexto = valor.getText().toString();
+
+                                    try {
+                                        double valorAux = Double.parseDouble(valorTexto);
+                                        String anoInicioTexto = ano.getSelectedItem().toString();
+                                        String anoFimTexto = ano.getSelectedItem().toString();
+                                        String mesFimTexto = mes.getSelectedItem().toString();
+                                        String mesInicioTexto = mes.getSelectedItem().toString();
+                                        Switch s = (Switch) dialogoAdicionar.findViewById(R.id.switchGanhoAVista);
+
+                                        String tipo;
+                                        if (s.isChecked())
+                                            tipo = "Ganho";
+                                        else
+                                            tipo = "Perda";
+
+                                        adicionarAtividade(nomeTexto, tipo, anoInicioTexto, anoFimTexto,
+                                                mesInicioTexto, mesFimTexto, valorAux);
+                                        atualizarLista();
+                                    } catch (NumberFormatException e) {
+                                        criarDialogoErro(dialogoAdicionar.getContext(), "Digite um valor válido.");
+                                        valor.setText("");
+                                    }
+                                } else {
+                                    criarDialogoErro(dialogoAdicionar.getContext(), "Nome já existente no banco de dados.");
+                                    nome.setText("");
+                                    dialog.cancel();
+                                }
+                            }
+                        })
+                                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                }).show();
+                    }
+                });
+                builder.create()
+                        .show();
             }
         });
     }
