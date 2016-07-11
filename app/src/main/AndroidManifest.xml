@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".telas.Atividades" />
+        <activity android:name=".telas.Opcoes"></activity>
     </application>
 
 </manifest>

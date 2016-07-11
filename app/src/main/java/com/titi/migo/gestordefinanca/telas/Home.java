@@ -26,6 +26,46 @@ public class Home extends AppCompatActivity {
 
         adminBD = new AdministradorBD(this);
 
+        popularSpinner();
+        adicionarBotoes();
+        setListener(spinnerAnos);
+        setListener(spinnerMeses);
+        setTexto();
+    }
+
+    private void adicionarBotoes() {
+        LinearLayout adicionar = (LinearLayout) findViewById(R.id.botaoAdicionar);
+        adicionar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iniciarAtividade(Atividades.class);
+            }
+        });
+
+        LinearLayout conf = (LinearLayout) findViewById(R.id.botaoConf);
+        conf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iniciarAtividade(Opcoes.class);
+            }
+        });
+    }
+
+    private void setListener(Spinner s) {
+        s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                setTexto();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                setTextoVazio();
+            }
+        });
+    }
+
+    private void popularSpinner() {
         String[] meses = new String[]{"Janeiro", "Fevereiro", "Março", "Abril", "Maio",
                 "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
         String[] anos = new String[]{"2016", "2017", "2018", "2019",
@@ -43,82 +83,20 @@ public class Home extends AppCompatActivity {
         spinnerAnos = (Spinner) findViewById(R.id.spinnerAno);
         spinnerAnos.setAdapter(adaptadorAnos);
 
-        LinearLayout adicionar = (LinearLayout) findViewById(R.id.botaoAdicionar);
-        adicionar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent atividade1 = new Intent(Home.this, Atividades.class);
-                startActivity(atividade1);
-                finish();
-            }
-        });
+    }
 
-        LinearLayout conf = (LinearLayout) findViewById(R.id.botaoConf);
-        conf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                adminBD.resetBanco();
-            }
-        });
+    private void setTextoVazio() {
+        TextView displayGanhos = (TextView) findViewById(R.id.quantiaGanho);
+        displayGanhos.setText("0,00");
 
-        spinnerMeses.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView displayGanhos = (TextView) findViewById(R.id.quantiaGanho);
-                displayGanhos.setText(Double.toString(adminBD.getSomatoriaAtividade(spinnerMeses.getSelectedItem().toString(),
-                        spinnerAnos.getSelectedItem().toString(), "Ganho")));
+        TextView displayPerdas = (TextView) findViewById(R.id.quantiaPerda);
+        displayPerdas.setText("0,00");
 
-                TextView displayPerdas = (TextView) findViewById(R.id.quantiaPerda);
-                displayPerdas.setText(Double.toString(adminBD.getSomatoriaAtividade(spinnerMeses.getSelectedItem().toString(),
-                        spinnerAnos.getSelectedItem().toString(), "Perda")));
+        TextView displayTotal = (TextView) findViewById(R.id.quantiaDisponivel);
+        displayTotal.setText("0,00");
+    }
 
-                TextView displayTotal = (TextView) findViewById(R.id.quantiaDisponivel);
-                displayTotal.setText(Double.toString(adminBD.getQuantia(spinnerMeses.getSelectedItem().toString(),
-                        spinnerAnos.getSelectedItem().toString())));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                TextView displayGanhos = (TextView) findViewById(R.id.quantiaGanho);
-                displayGanhos.setText("0,00");
-
-                TextView displayPerdas = (TextView) findViewById(R.id.quantiaPerda);
-                displayPerdas.setText("0,00");
-
-                TextView displayTotal = (TextView) findViewById(R.id.quantiaDisponivel);
-                displayTotal.setText("0,00");
-            }
-        });
-
-        spinnerAnos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView displayGanhos = (TextView) findViewById(R.id.quantiaGanho);
-                displayGanhos.setText(Double.toString(adminBD.getSomatoriaAtividade(spinnerMeses.getSelectedItem().toString(),
-                        spinnerAnos.getSelectedItem().toString(), "Ganho")));
-
-                TextView displayPerdas = (TextView) findViewById(R.id.quantiaPerda);
-                displayPerdas.setText(Double.toString(adminBD.getSomatoriaAtividade(spinnerMeses.getSelectedItem().toString(),
-                        spinnerAnos.getSelectedItem().toString(), "Perda")));
-
-                TextView displayTotal = (TextView) findViewById(R.id.quantiaDisponivel);
-                displayTotal.setText(Double.toString(adminBD.getQuantia(spinnerMeses.getSelectedItem().toString(),
-                        spinnerAnos.getSelectedItem().toString())));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                TextView displayGanhos = (TextView) findViewById(R.id.quantiaGanho);
-                displayGanhos.setText("0,00");
-
-                TextView displayPerdas = (TextView) findViewById(R.id.quantiaPerda);
-                displayPerdas.setText("0,00");
-
-                TextView displayTotal = (TextView) findViewById(R.id.quantiaDisponivel);
-                displayTotal.setText("0,00");
-            }
-        });
-
+    private void setTexto() {
         TextView displayGanhos = (TextView) findViewById(R.id.quantiaGanho);
         displayGanhos.setText(Double.toString(adminBD.getSomatoriaAtividade(spinnerMeses.getSelectedItem().toString(),
                 spinnerAnos.getSelectedItem().toString(), "Ganho")));
@@ -132,5 +110,9 @@ public class Home extends AppCompatActivity {
                 spinnerAnos.getSelectedItem().toString())));
     }
 
-
+    private void iniciarAtividade(Class c) {
+        Intent intent = new Intent(Home.this, c);
+        startActivity(intent);
+        finish();
+    }
 }
