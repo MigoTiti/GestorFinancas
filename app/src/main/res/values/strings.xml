@@ -1,68 +1,40 @@
 <resources>
     <string name="app_name">Gestor de finança</string>
-    <string name="title_activity_atividades">atividades</string>
     <string name="nome_da_atividade">Nome da atividade</string>
     <string name="ano_de_inicio">Ano de início</string>
     <string name="mes_de_inicio">Mês de início</string>
     <string name="valor_por_mes">Valor por mês (R$)</string>
     <string name="ganho">Ganho</string>
-    <string name="title_activity_opcoes">Settings</string>
+    <string name="mes_de_termino">Mês de término</string>
+    <string name="adicionar_atividade">Adicionar atividade</string>
+    <string name="nome">Nome</string>
+    <string name="valor">Valor</string>
+    <string name="tipo">Tipo</string>
+    <string name="mes_e_ano">Mês e ano</string>
+    <string name="total_de_ganhos">Total de ganhos</string>
+    <string name="total_de_perdas">Total de perdas</string>
+    <string name="quantia_dispon_vel_para_gasto">Quantia disponível para gasto</string>
+    <string name="r" translatable="false">R$</string>
+    <string name="configura_es">Configurações</string>
+    <string name="adicionar">Adicionar</string>
+    <string name="resetar_banco_de_dados">resetar banco de dados</string>
+    <string name="ano">Ano</string>
+    <string name="mes">Mês</string>
+    <string name="nome2">Nome:</string>
+    <string name="tipo2">Tipo:</string>
+    <string name="valor2">Valor:</string>
+    <string name="parcelas" translatable="false">Parcelas:</string>
+    <string name="ano_de_inicio2">Ano de início:</string>
+    <string name="ano_de_termino2">Ano de término:</string>
+    <string name="mes_de_inicio2">Mês de início:</string>
+    <string name="mes_de_termino2">Mês de término:</string>
+    <string name="remover_atividade">Remover atividade</string>
+    <string name="remover_parcela_unica" translatable="false">Remover parcela única</string>
+    <string name="editar_atividade">Editar atividade</string>
+    <string name="a_vista" translatable="false">a vista</string>
+    <string name="parcelado" translatable="false">parcelado</string>
+    <string name="remover">Remover</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="ano_de_termino">Ano de término</string>
 
-    <!-- Strings related to Settings -->
-
-    <!-- Example General settings -->
-    <string name="pref_header_general">General</string>
-
-    <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact
-        based on your message history
-    </string>
-
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
-
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
-    </string-array>
-
-    <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
-
-    <string name="pref_title_sync_frequency">Sync frequency</string>
-    <string-array name="pref_sync_frequency_titles">
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>3 hours</item>
-        <item>6 hours</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_sync_frequency_values">
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>180</item>
-        <item>360</item>
-        <item>-1</item>
-    </string-array>
-
-    <string name="pref_title_system_sync_settings">System sync settings</string>
-
-    <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Notifications</string>
-
-    <string name="pref_title_new_message_notifications">New message notifications</string>
-
-    <string name="pref_title_ringtone">Ringtone</string>
-    <string name="pref_ringtone_silent">Silent</string>
-
-    <string name="pref_title_vibrate">Vibrate</string>
 </resources>

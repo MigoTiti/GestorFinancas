@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gestor de finança</string>
+    <string name="ano_de_inicio">Starting year</string>
+    <string name="ganho">Income</string>
+    <string name="mes_de_inicio">Starting month</string>
+    <string name="mes_de_termino">Ending month</string>
+    <string name="nome_da_atividade">Activity name</string>
+    <string name="valor_por_mes">Value per month (R$)</string>
+    <string name="adicionar">Add</string>
+    <string name="adicionar_atividade">Add activity</string>
+    <string name="ano">Year</string>
+    <string name="ano_de_inicio2">Starting year:</string>
+    <string name="ano_de_termino">Ending year</string>
+    <string name="ano_de_termino2">Ending year:</string>
+    <string name="cancelar">Cancel</string>
+    <string name="configura_es">Configuration</string>
+    <string name="editar_atividade">Edit activity</string>
+    <string name="mes">Month</string>
+    <string name="mes_de_inicio2">Starting month:</string>
+    <string name="mes_de_termino2">Ending month:</string>
+    <string name="mes_e_ano">Month and year</string>
+    <string name="nome">Name</string>
+    <string name="nome2">Name:</string>
+    <string name="quantia_dispon_vel_para_gasto">Money available for use</string>
+    <string name="remover">Remove</string>
+    <string name="remover_atividade">Remove activity</string>
+    <string name="resetar_banco_de_dados">Reset database</string>
+    <string name="tipo">Type</string>
+    <string name="tipo2">Type: </string>
+    <string name="total_de_ganhos">Total income</string>
+    <string name="total_de_perdas">Total expense</string>
+    <string name="valor">Value</string>
+    <string name="valor2">Value:</string>
+</resources>

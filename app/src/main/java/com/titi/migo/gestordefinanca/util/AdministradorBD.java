@@ -69,6 +69,8 @@ public class AdministradorBD extends SQLiteOpenHelper {
                 BD.insert("valoresmes", null, c);
             }
         }
+
+        BD.close();
     }
 
     public Cursor procurarRegistro(String mes, String ano) {
@@ -159,6 +161,7 @@ public class AdministradorBD extends SQLiteOpenHelper {
             c.put("quantiadisponivel", valorOriginal + valor);
 
             this.getWritableDatabase().update("valoresmes", c, "_id = ?", new String[]{Integer.toString(id)});
+            close();
         }
 
     }
@@ -181,6 +184,7 @@ public class AdministradorBD extends SQLiteOpenHelper {
             b.update("valoresmes", c, "_id = ? ", new String[]{Integer.toString(i)});
         }
         aux2.close();
+        b.close();
     }
 
     @Override
@@ -194,6 +198,7 @@ public class AdministradorBD extends SQLiteOpenHelper {
         aux.moveToNext();
         int i = aux.getInt(0);
         aux.close();
+        close();
         return i;
     }
 
@@ -209,6 +214,7 @@ public class AdministradorBD extends SQLiteOpenHelper {
         Cursor aux = this.getReadableDatabase().rawQuery("SELECT nome FROM nomesunicos WHERE nome = ? ", new String[]{nome});
         int i = aux.getCount();
         aux.close();
+        close();
         return i > 0;
     }
 
@@ -224,10 +230,12 @@ public class AdministradorBD extends SQLiteOpenHelper {
         contentValues.put("mesinicio", mesInicio);
         contentValues.put("mesfim", mesFim);
         this.getWritableDatabase().insert("nomesunicos", null, contentValues);
+        close();
     }
 
     public void removerNomeUnico(String nome){
         this.getWritableDatabase().execSQL("DELETE FROM nomesunicos WHERE nome = ? ", new String[]{nome});
+        close();
     }
 
     public void adicionarAtividade(String nome, String tipo, String ano, String mes, double valor) {
@@ -238,6 +246,7 @@ public class AdministradorBD extends SQLiteOpenHelper {
         contentValues.put("mes", mes);
         contentValues.put("valor", valor);
         this.getWritableDatabase().insert("atividade", null, contentValues);
+        close();
     }
 
     public void atualizarAtividadeGeral(String nomeOriginal, String nome, String tipo, double valor) {
@@ -245,13 +254,16 @@ public class AdministradorBD extends SQLiteOpenHelper {
                 "WHERE nome = ? ", new String[]{nome, tipo, Double.toString(valor), nomeOriginal});
         this.getWritableDatabase().execSQL("UPDATE nomesunicos SET nome = ? WHERE nome = ? ",
                 new String[]{nome, nomeOriginal});
+        close();
     }
 
     public void deletarAtividadePorData(String nome, String ano, String mes){
         this.getWritableDatabase().execSQL("DELETE FROM atividade WHERE nome = ? AND ano = ? AND mes = ? ", new String[]{nome, ano, mes});
+        close();
     }
 
     public void deletarTodasAtividades(String nome) {
         this.getWritableDatabase().execSQL("DELETE FROM atividade WHERE nome = ? ", new String[]{nome});
+        close();
     }
 }

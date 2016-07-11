@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,53 +25,14 @@ import com.titi.migo.gestordefinanca.util.AdministradorBD;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class Atividades extends AppCompatActivity {
 
     private String nomeAtividadeAux;
     private AdministradorBD adminBD;
 
-    private void popularDetalhes(String nome, View v) {
-        Cursor detalhesAtividade = adminBD.getAtividadesPorNome(nome);
-        Cursor detalhesNome = adminBD.getNomeUnico(nome);
-        detalhesNome.moveToNext();
-        detalhesAtividade.moveToNext();
 
-        DatabaseUtils.dumpCursorToString(detalhesAtividade);
-
-        TextView nomeTexto = (TextView) v.findViewById(R.id.nomeTextoDiag);
-        TextView tipoTexto = (TextView) v.findViewById(R.id.tipoTextoDiag);
-        TextView anoInicioTexto = (TextView) v.findViewById(R.id.anoInicioTextoDiag);
-        TextView mesInicioTexto = (TextView) v.findViewById(R.id.mesInicioTextoDiag);
-        TextView anoFimTexto = (TextView) v.findViewById(R.id.anoFimTextoDiag);
-        TextView mesFimTexto = (TextView) v.findViewById(R.id.mesFimTextoDiag);
-        TextView valorTexto = (TextView) v.findViewById(R.id.valorTextoDiag);
-        TextView parcelasTexto = (TextView) v.findViewById(R.id.parcelasTextoDiag);
-
-        nomeAtividadeAux = nome;
-
-        nomeTexto.setText(nomeAtividadeAux);
-        tipoTexto.setText(detalhesAtividade.getString(2));
-        anoInicioTexto.setText(detalhesNome.getString(0));
-        mesInicioTexto.setText(detalhesNome.getString(2));
-        anoFimTexto.setText(detalhesNome.getString(1));
-        mesFimTexto.setText(detalhesNome.getString(3));
-        valorTexto.setText(detalhesAtividade.getString(5));
-        parcelasTexto.setText(Integer.toString(adminBD.getContagemRegistrosPorNome(nomeAtividadeAux)));
-    }
-
-    private void removerParcelas(ArrayList<Integer> linhas, View v) {
-        final ListView lista = (ListView) v.findViewById(R.id.listaParcela);
-
-        for (Integer i : linhas){
-            Cursor aux = (Cursor) lista.getItemAtPosition(i);
-            String mes = aux.getString(4);
-            String ano = aux.getString(3);
-
-            adminBD.deletarAtividadePorData(nomeAtividadeAux,ano,mes);
-        }
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +52,7 @@ public class Atividades extends AppCompatActivity {
 
                 Cursor item = (Cursor) lista.getItemAtPosition(i);
                 String nome = item.getString(1);
+                item.close();
 
                 builder.setTitle("Detalhes")
                         .setView(detalhes)
@@ -134,6 +97,7 @@ public class Atividades extends AppCompatActivity {
 
                         final SimpleCursorAdapter adapter = new SimpleCursorAdapter(view.getContext(), R.layout.lista_parcelas,
                                 atividades, colunas, widgets, 0);
+                        atividades.close();
 
                         listaParcelas.setAdapter(adapter);
 
@@ -201,6 +165,8 @@ public class Atividades extends AppCompatActivity {
                         else
                             s.setChecked(false);
 
+                        atividades.close();
+
                         builder.setPositiveButton("Editar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 EditText nome = (EditText) dialogoEditarTudo.findViewById(R.id.nomeEditarAtividade);
@@ -267,28 +233,12 @@ public class Atividades extends AppCompatActivity {
                                 .setView(dialogoAdicionar)
                                 .setCancelable(false);
 
-                        String[] meses = new String[]{"Janeiro", "Fevereiro", "Março", "Abril", "Maio",
-                                "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
-                        String[] anos = new String[]{"2016", "2017", "2018", "2019",
-                                "2020", "2021", "2022"};
-
-                        ArrayAdapter<String> adaptadorMeses = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, meses);
-                        adaptadorMeses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                        ArrayAdapter<String> adaptadorAnos = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, anos);
-                        adaptadorMeses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
                         final Spinner anoInicio = (Spinner) dialogoAdicionar.findViewById(R.id.spinnerAnoInicioAdicionar);
                         final Spinner anoFim = (Spinner) dialogoAdicionar.findViewById(R.id.spinnerAnoTerminoAdicionar);
-
-                        anoInicio.setAdapter(adaptadorAnos);
-                        anoFim.setAdapter(adaptadorAnos);
-
                         final Spinner mesInicio = (Spinner) dialogoAdicionar.findViewById(R.id.spinnerMesInicioAdicionar);
                         final Spinner mesFim = (Spinner) dialogoAdicionar.findViewById(R.id.spinnerMesTerminoAdicionar);
 
-                        mesInicio.setAdapter(adaptadorMeses);
-                        mesFim.setAdapter(adaptadorMeses);
+                        popularSpinners(new Spinner[]{mesInicio, anoInicio, mesFim, anoFim}, view.getContext());
 
                         builder.setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -347,24 +297,10 @@ public class Atividades extends AppCompatActivity {
                                 .setView(dialogoAdicionar)
                                 .setCancelable(false);
 
-                        String[] meses = new String[]{"Janeiro", "Fevereiro", "Março", "Abril", "Maio",
-                                "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
-                        String[] anos = new String[]{"2016", "2017", "2018", "2019",
-                                "2020", "2021", "2022"};
-
-                        ArrayAdapter<String> adaptadorMeses = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, meses);
-                        adaptadorMeses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                        ArrayAdapter<String> adaptadorAnos = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, anos);
-                        adaptadorMeses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
                         final Spinner ano = (Spinner) dialogoAdicionar.findViewById(R.id.spinnerAnoAdicionarAVista);
-
-                        ano.setAdapter(adaptadorAnos);
-
                         final Spinner mes = (Spinner) dialogoAdicionar.findViewById(R.id.spinnerMesAdicionarAVista);
 
-                        mes.setAdapter(adaptadorMeses);
+                        popularSpinners(new Spinner[]{mes, ano}, view.getContext());
 
                         builder.setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -416,6 +352,40 @@ public class Atividades extends AppCompatActivity {
         });
     }
 
+    private void popularSpinners(Spinner[] spinners, Context c){
+        String[] meses = new String[]{"Janeiro", "Fevereiro", "Março", "Abril", "Maio",
+                "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
+        String[] anos = new String[]{"2016", "2017", "2018", "2019",
+                "2020", "2021", "2022"};
+
+        ArrayAdapter<String> adaptadorMeses = new ArrayAdapter<>(c, android.R.layout.simple_spinner_dropdown_item, meses);
+        adaptadorMeses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ArrayAdapter<String> adaptadorAnos = new ArrayAdapter<>(c, android.R.layout.simple_spinner_dropdown_item, anos);
+        adaptadorAnos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        for (int i = 0; i < (spinners.length-1); i += 2){
+            spinners[i].setAdapter(adaptadorMeses);
+            spinners[i+1].setAdapter(adaptadorAnos);
+        }
+    }
+
+    private void removerParcelas(ArrayList<Integer> linhas, View v) {
+        final ListView lista = (ListView) v.findViewById(R.id.listaParcela);
+
+        Cursor aux = null;
+        for (Integer i : linhas){
+            aux = (Cursor) lista.getItemAtPosition(i);
+            String mes = aux.getString(4);
+            String ano = aux.getString(3);
+
+            adminBD.deletarAtividadePorData(nomeAtividadeAux,ano,mes);
+        }
+
+        assert aux != null;
+        aux.close();
+    }
+
     @Override
     public void onBackPressed() {
         Intent home = new Intent(this, Home.class);
@@ -461,6 +431,7 @@ public class Atividades extends AppCompatActivity {
         aux = adminBD.procurarRegistro(mesFim, anoFim);
         aux.moveToNext();
         int idFinal = aux.getInt(0);
+        aux.close();
 
         double acumulador = 0;
         boolean primeiraParcela = true;
@@ -561,6 +532,38 @@ public class Atividades extends AppCompatActivity {
 
         ListView lista = (ListView) findViewById(R.id.listView);
         lista.setAdapter(adapter);
+    }
+
+    private void popularDetalhes(String nome, View v) {
+        Cursor detalhesAtividade = adminBD.getAtividadesPorNome(nome);
+        Cursor detalhesNome = adminBD.getNomeUnico(nome);
+        detalhesNome.moveToNext();
+        detalhesAtividade.moveToNext();
+
+        DatabaseUtils.dumpCursorToString(detalhesAtividade);
+
+        TextView nomeTexto = (TextView) v.findViewById(R.id.nomeTextoDiag);
+        TextView tipoTexto = (TextView) v.findViewById(R.id.tipoTextoDiag);
+        TextView anoInicioTexto = (TextView) v.findViewById(R.id.anoInicioTextoDiag);
+        TextView mesInicioTexto = (TextView) v.findViewById(R.id.mesInicioTextoDiag);
+        TextView anoFimTexto = (TextView) v.findViewById(R.id.anoFimTextoDiag);
+        TextView mesFimTexto = (TextView) v.findViewById(R.id.mesFimTextoDiag);
+        TextView valorTexto = (TextView) v.findViewById(R.id.valorTextoDiag);
+        TextView parcelasTexto = (TextView) v.findViewById(R.id.parcelasTextoDiag);
+
+        nomeAtividadeAux = nome;
+
+        nomeTexto.setText(nomeAtividadeAux);
+        tipoTexto.setText(detalhesAtividade.getString(2));
+        anoInicioTexto.setText(detalhesNome.getString(0));
+        mesInicioTexto.setText(detalhesNome.getString(2));
+        anoFimTexto.setText(detalhesNome.getString(1));
+        mesFimTexto.setText(detalhesNome.getString(3));
+        valorTexto.setText(detalhesAtividade.getString(5));
+        parcelasTexto.setText(String.format(Locale.US, Integer.toString(adminBD.getContagemRegistrosPorNome(nomeAtividadeAux))));
+
+        detalhesAtividade.close();
+        detalhesNome.close();
     }
 
     private boolean checarNomeUnico(String nome) {

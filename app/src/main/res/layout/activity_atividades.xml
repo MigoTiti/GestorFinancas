@@ -16,7 +16,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:text="Adicionar atividade" />
+        android:text="@string/adicionar_atividade" />
 
     <TextView
         android:id="@+id/textViewID"
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:text="Nome"
+        android:text="@string/nome"
         android:textSize="25sp" />
 
     <TextView
@@ -32,19 +32,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/textViewID"
-        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
         android:layout_toEndOf="@+id/textViewID"
-        android:text="Valor"
+        android:text="@string/valor"
         android:textSize="25sp" />
 
     <TextView
-        android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="83dp"
         android:layout_toEndOf="@+id/textViewValor"
-        android:text="Tipo"
+        android:text="@string/tipo"
         android:textSize="25sp" />
 
     <ListView

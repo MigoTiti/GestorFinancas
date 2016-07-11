@@ -15,6 +15,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:text="resetar banco de dados" />
+        android:text="@string/resetar_banco_de_dados" />
 
 </RelativeLayout>

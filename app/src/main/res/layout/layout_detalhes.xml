@@ -4,12 +4,11 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView13"
         android:layout_column="0"
-        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="0"
-        android:text="Nome: "
+        android:text="@string/nome2"
         android:textSize="20sp" />
 
     <TextView
@@ -17,19 +16,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="1"
-        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="0"
-        android:text="nome"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/textView16"
         android:layout_column="0"
-        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="1"
-        android:text="Tipo: "
+        android:text="@string/tipo2"
         android:textSize="20sp" />
 
     <TextView
@@ -37,19 +34,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="1"
-        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="1"
-        android:text="tipo"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/textView18"
         android:layout_column="0"
-        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="2"
-        android:text="Valor: "
+        android:text="@string/valor2"
         android:textSize="20sp" />
 
     <TextView
@@ -57,19 +52,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="1"
-        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="2"
-        android:text="valor"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/textView20"
         android:layout_column="0"
-        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="3"
-        android:text="Parcelas: "
+        android:text="@string/parcelas"
         android:textSize="20sp" />
 
     <TextView
@@ -77,19 +70,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="1"
-        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="3"
-        android:text="parcelas"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/textView22"
         android:layout_column="0"
-        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="4"
-        android:text="Ano de início: "
+        android:text="@string/ano_de_inicio2"
         android:textSize="20sp" />
 
     <TextView
@@ -97,19 +88,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="1"
-        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="4"
-        android:text="New Text"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/textView23"
         android:layout_column="0"
-        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="5"
-        android:text="Ano de término: "
+        android:text="@string/ano_de_termino2"
         android:textSize="20sp" />
 
     <TextView
@@ -117,7 +106,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="1"
-        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="5"
         android:text="New Text"
@@ -125,10 +114,10 @@
 
     <TextView
         android:layout_column="0"
-        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="6"
-        android:text="Mês de início: "
+        android:text="@string/mes_de_inicio2"
         android:textSize="20sp" />
 
     <TextView
@@ -136,19 +125,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="1"
-        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="6"
         android:text="New Text"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/textView25"
         android:layout_column="0"
-        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="7"
-        android:text="Mês de término: "
+        android:text="@string/mes_de_termino2"
         android:textSize="20sp" />
 
     <TextView
@@ -156,7 +144,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="1"
-        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="8dp"
         android:layout_row="7"
         android:text="New Text"
@@ -168,9 +156,9 @@
         android:layout_height="wrap_content"
         android:layout_column="0"
         android:layout_columnSpan="2"
-        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_row="8"
-        android:text="Remover atividade" />
+        android:text="@string/remover_atividade" />
 
     <Button
         android:id="@+id/removerParcelaB"
@@ -178,9 +166,9 @@
         android:layout_height="wrap_content"
         android:layout_column="0"
         android:layout_columnSpan="2"
-        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_row="9"
-        android:text="Remover parcela única" />
+        android:text="@string/remover_parcela_unica" />
 
     <Button
         android:id="@+id/editarTudoB"
@@ -188,8 +176,8 @@
         android:layout_height="wrap_content"
         android:layout_column="0"
         android:layout_columnSpan="2"
-        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_row="10"
-        android:text="Editar atividade" />
+        android:text="@string/editar_atividade" />
 
 </GridLayout>

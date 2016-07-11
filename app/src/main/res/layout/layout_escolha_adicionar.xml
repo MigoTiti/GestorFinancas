@@ -5,14 +5,16 @@
     android:orientation="horizontal">
 
     <Button
+        style="?android:attr/buttonBarButtonStyle"
         android:id="@+id/vistaB"
         android:layout_width="132dp"
         android:layout_height="wrap_content"
-        android:text="a vista" />
+        android:text="@string/a_vista" />
 
     <Button
+        style="?android:attr/buttonBarButtonStyle"
         android:id="@+id/parceladoB"
         android:layout_width="132dp"
         android:layout_height="wrap_content"
-        android:text="parcelado" />
+        android:text="@string/parcelado" />
 </LinearLayout>
