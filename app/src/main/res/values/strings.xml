@@ -36,5 +36,6 @@
     <string name="remover">Remover</string>
     <string name="cancelar">Cancelar</string>
     <string name="ano_de_termino">Ano de término</string>
+    <string name="idioma">Idioma:</string>
 
 </resources>

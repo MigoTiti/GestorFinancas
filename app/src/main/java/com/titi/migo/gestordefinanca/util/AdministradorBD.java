@@ -70,7 +70,6 @@ public class AdministradorBD extends SQLiteOpenHelper {
             }
         }
 
-        BD.close();
     }
 
     public Cursor procurarRegistro(String mes, String ano) {

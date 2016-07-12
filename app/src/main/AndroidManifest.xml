@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".telas.Atividades" />
-        <activity android:name=".telas.Opcoes"></activity>
+        <activity android:name=".telas.Opcoes" />
     </application>
 
 </manifest>

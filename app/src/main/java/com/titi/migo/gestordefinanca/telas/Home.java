@@ -1,7 +1,10 @@
 package com.titi.migo.gestordefinanca.telas;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,11 +16,16 @@ import android.widget.TextView;
 import com.titi.migo.gestordefinanca.R;
 import com.titi.migo.gestordefinanca.util.AdministradorBD;
 
+import java.util.Locale;
+
 public class Home extends AppCompatActivity {
 
     private AdministradorBD adminBD;
     private Spinner spinnerAnos;
     private Spinner spinnerMeses;
+    private SharedPreferences opcoes;
+    private Configuration config;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +39,18 @@ public class Home extends AppCompatActivity {
         setListener(spinnerAnos);
         setListener(spinnerMeses);
         setTexto();
+
+        opcoes = PreferenceManager.getDefaultSharedPreferences(this);
+        config = getBaseContext().getResources().getConfiguration();
+
+        String lang = opcoes.getString("LANG", "");
+        if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
+            Locale locale = new Locale(lang);
+            Locale.setDefault(locale);
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+            setLangRecreate(lang);
+        }
     }
 
     private void adicionarBotoes() {
@@ -72,10 +92,7 @@ public class Home extends AppCompatActivity {
                 "2020", "2021", "2022"};
 
         ArrayAdapter<String> adaptadorMeses = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, meses);
-        adaptadorMeses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         ArrayAdapter<String> adaptadorAnos = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, anos);
-        adaptadorMeses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinnerMeses = (Spinner) findViewById(R.id.spinnerMes);
         spinnerMeses.setAdapter(adaptadorMeses);
@@ -108,6 +125,15 @@ public class Home extends AppCompatActivity {
         TextView displayTotal = (TextView) findViewById(R.id.quantiaDisponivel);
         displayTotal.setText(Double.toString(adminBD.getQuantia(spinnerMeses.getSelectedItem().toString(),
                 spinnerAnos.getSelectedItem().toString())));
+    }
+
+    private void setLangRecreate(String langval) {
+        Configuration config = getBaseContext().getResources().getConfiguration();
+        Locale locale = new Locale(langval);
+        Locale.setDefault(locale);
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        recreate();
     }
 
     private void iniciarAtividade(Class c) {

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.os.Bundle;
-import android.support.annotation.IntegerRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,7 +24,6 @@ import com.titi.migo.gestordefinanca.util.AdministradorBD;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 
 public class Atividades extends AppCompatActivity {
 
@@ -543,6 +541,7 @@ public class Atividades extends AppCompatActivity {
         DatabaseUtils.dumpCursorToString(detalhesAtividade);
 
         TextView nomeTexto = (TextView) v.findViewById(R.id.nomeTextoDiag);
+
         TextView tipoTexto = (TextView) v.findViewById(R.id.tipoTextoDiag);
         TextView anoInicioTexto = (TextView) v.findViewById(R.id.anoInicioTextoDiag);
         TextView mesInicioTexto = (TextView) v.findViewById(R.id.mesInicioTextoDiag);
@@ -560,7 +559,7 @@ public class Atividades extends AppCompatActivity {
         anoFimTexto.setText(detalhesNome.getString(1));
         mesFimTexto.setText(detalhesNome.getString(3));
         valorTexto.setText(detalhesAtividade.getString(5));
-        parcelasTexto.setText(String.format(Locale.US, Integer.toString(adminBD.getContagemRegistrosPorNome(nomeAtividadeAux))));
+        parcelasTexto.setText(Integer.toString(adminBD.getContagemRegistrosPorNome(nomeAtividadeAux)));
 
         detalhesAtividade.close();
         detalhesNome.close();
