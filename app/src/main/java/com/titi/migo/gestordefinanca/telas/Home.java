@@ -23,7 +23,6 @@ public class Home extends AppCompatActivity {
     private AdministradorBD adminBD;
     private Spinner spinnerAnos;
     private Spinner spinnerMeses;
-    private SharedPreferences opcoes;
     private Configuration config;
 
 
@@ -40,7 +39,7 @@ public class Home extends AppCompatActivity {
         setListener(spinnerMeses);
         setTexto();
 
-        opcoes = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences opcoes = PreferenceManager.getDefaultSharedPreferences(this);
         config = getBaseContext().getResources().getConfiguration();
 
         String lang = opcoes.getString("LANG", "");
