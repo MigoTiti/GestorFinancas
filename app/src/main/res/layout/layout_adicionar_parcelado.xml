@@ -19,9 +19,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
-        android:text="@string/ano_de_inicio"
-        android:layout_marginStart="10dp" />
+        android:text="@string/ano_de_inicio" />
 
     <Spinner
         android:id="@+id/spinnerAnoInicioAdicionar"
@@ -32,9 +32,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
-        android:text="@string/mes_de_inicio"
-        android:layout_marginStart="10dp" />
+        android:text="@string/mes_de_inicio" />
 
     <Spinner
         android:id="@+id/spinnerMesInicioAdicionar"
@@ -45,9 +45,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
-        android:text="@string/ano_de_termino"
-        android:layout_marginStart="10dp" />
+        android:text="@string/ano_de_termino" />
 
     <Spinner
         android:id="@+id/spinnerAnoTerminoAdicionar"
@@ -58,9 +58,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
-        android:text="@string/mes_de_termino"
-        android:layout_marginStart="10dp" />
+        android:text="@string/mes_de_termino" />
 
     <Spinner
         android:id="@+id/spinnerMesTerminoAdicionar"
@@ -69,6 +69,7 @@
 
     <Switch
         android:id="@+id/switchGanho"
+        style="@style/Base.Widget.AppCompat.CompoundButton.Switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"

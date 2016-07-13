@@ -4,9 +4,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,15 +24,18 @@ import android.widget.TextView;
 
 import com.titi.migo.gestordefinanca.R;
 import com.titi.migo.gestordefinanca.util.AdministradorBD;
+import com.titi.migo.gestordefinanca.util.Formatador;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class Atividades extends AppCompatActivity {
 
     private String nomeAtividadeAux;
     private AdministradorBD adminBD;
-
+    private Configuration config;
+    private Formatador formatador;
 
 
     @Override
@@ -38,6 +44,11 @@ public class Atividades extends AppCompatActivity {
         setContentView(R.layout.activity_atividades);
 
         adminBD = new AdministradorBD(this);
+
+        SharedPreferences opcoes = PreferenceManager.getDefaultSharedPreferences(this);
+        config = getBaseContext().getResources().getConfiguration();
+        String lang = opcoes.getString("LANG", "");
+        formatador = new Formatador(new Locale(lang));
 
         atualizarLista();
 
@@ -201,7 +212,8 @@ public class Atividades extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
                                     }
-                                }).show();
+                                })
+                                .show();
                     }
                 });
             }
@@ -219,6 +231,7 @@ public class Atividades extends AppCompatActivity {
                         .setView(dialogoEscolha)
                         .setCancelable(true);
 
+                final AlertDialog d = builder.create();
                 Button parcelado = (Button) dialogoEscolha.findViewById(R.id.parceladoB);
                 parcelado.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -264,6 +277,7 @@ public class Atividades extends AppCompatActivity {
                                         adicionarAtividade(nomeTexto, tipo, anoInicioTexto, anoFimTexto,
                                                 mesInicioTexto, mesFimTexto, valorAux);
                                         atualizarLista();
+                                        d.cancel();
                                     } catch (NumberFormatException e) {
                                         criarDialogoErro(dialogoAdicionar.getContext(), "Digite um valor válido.");
                                         valor.setText("");
@@ -271,15 +285,23 @@ public class Atividades extends AppCompatActivity {
                                 } else {
                                     criarDialogoErro(dialogoAdicionar.getContext(), "Nome já existente no banco de dados.");
                                     nome.setText("");
-                                    dialog.cancel();
                                 }
                             }
                         })
                                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
+                                        d.cancel();
                                     }
-                                }).show();
+                                })
+                                .setNeutralButton("Voltar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.cancel();
+                                    }
+                                })
+                                .show();
+
                     }
                 });
 
@@ -326,6 +348,7 @@ public class Atividades extends AppCompatActivity {
                                         adicionarAtividade(nomeTexto, tipo, anoInicioTexto, anoFimTexto,
                                                 mesInicioTexto, mesFimTexto, valorAux);
                                         atualizarLista();
+                                        d.cancel();
                                     } catch (NumberFormatException e) {
                                         criarDialogoErro(dialogoAdicionar.getContext(), "Digite um valor válido.");
                                         valor.setText("");
@@ -333,19 +356,25 @@ public class Atividades extends AppCompatActivity {
                                 } else {
                                     criarDialogoErro(dialogoAdicionar.getContext(), "Nome já existente no banco de dados.");
                                     nome.setText("");
-                                    dialog.cancel();
                                 }
                             }
                         })
                                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
+                                        d.cancel();
                                     }
-                                }).show();
+                                })
+                                .setNeutralButton("Voltar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.cancel();
+                                    }
+                                })
+                                .show();
                     }
                 });
-                builder.create()
-                        .show();
+                d.show();
             }
         });
     }
@@ -558,7 +587,7 @@ public class Atividades extends AppCompatActivity {
         mesInicioTexto.setText(detalhesNome.getString(2));
         anoFimTexto.setText(detalhesNome.getString(1));
         mesFimTexto.setText(detalhesNome.getString(3));
-        valorTexto.setText(detalhesAtividade.getString(5));
+        valorTexto.setText(formatador.formatar(Double.parseDouble(detalhesAtividade.getString(5))));
         parcelasTexto.setText(Integer.toString(adminBD.getContagemRegistrosPorNome(nomeAtividadeAux)));
 
         detalhesAtividade.close();

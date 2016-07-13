@@ -69,8 +69,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/quantiaGanho"
         android:layout_alignStart="@+id/textView3"
-        android:text="@string/r"
-        android:layout_marginEnd="5dp" />
+        android:layout_marginEnd="5dp"
+        android:text="@string/r" />
 
     <TextView
         android:id="@+id/textView6"
@@ -96,13 +96,14 @@
         android:textSize="25sp" />
 
     <TextView
+        android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/quantiaDisponivel"
+        android:layout_marginEnd="10dp"
         android:layout_toStartOf="@+id/quantiaDisponivel"
         android:text="@string/r"
-        android:textSize="25sp"
-        android:layout_marginEnd="10dp" />
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/textView5"
@@ -110,8 +111,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignTop="@+id/quantiaGanho"
-        android:text="@string/r"
-        android:layout_marginEnd="5dp" />
+        android:layout_marginEnd="5dp"
+        android:text="@string/r" />
 
     <TextView
         android:id="@+id/quantiaPerda"
@@ -120,7 +121,7 @@
         android:layout_alignTop="@+id/text1"
         android:layout_toEndOf="@+id/text1" />
 
-    <LinearLayout
+    <ImageButton
         android:id="@+id/botaoConf"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -129,19 +130,10 @@
         android:background="@drawable/botao_circular"
         android:clickable="true"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:src="@drawable/ic_action_name_2" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="0dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_action_name_2"
-            android:contentDescription="@string/configura_es" />
-    </LinearLayout>
-
-    <LinearLayout
+    <ImageButton
         android:id="@+id/botaoAdicionar"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -150,16 +142,7 @@
         android:background="@drawable/botao_circular"
         android:clickable="true"
         android:gravity="center"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="0dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_action_name"
-            android:contentDescription="@string/adicionar" />
-    </LinearLayout>
+        android:orientation="horizontal"
+        android:src="@drawable/ic_action_name" />
 
 </RelativeLayout>
