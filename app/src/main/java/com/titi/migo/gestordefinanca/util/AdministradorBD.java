@@ -3,6 +3,7 @@ package com.titi.migo.gestordefinanca.util;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -148,16 +149,28 @@ public class AdministradorBD extends SQLiteOpenHelper {
             this.getWritableDatabase().update("valoresmes", c, "_id = ?", new String[]{Integer.toString(id)});
             close();
         } else {
-            aux.close();
-            Cursor aux2 = this.getReadableDatabase().rawQuery("SELECT quantiadisponivel FROM valoresmes WHERE _id = ? ",
-                    new String[]{Integer.toString(id - 1)});
-            aux2.moveToNext();
+	        Cursor anoMes = this.getReadableDatabase().rawQuery("SELECT ano, mes FROM valoresmes WHERE _id = ?",
+			        new String[]{Integer.toString(id)});
 
-            double valorOriginal = aux2.getDouble(0);
+	        anoMes.moveToNext();
+	        String ano = anoMes.getString(0);
+	        String mes = anoMes.getString(1);
+
+	        DatabaseUtils.dumpCursor(anoMes);
+
+	        Cursor aux2 = this.getReadableDatabase().rawQuery("SELECT valor FROM atividade WHERE ano = ? AND mes = ?",
+			        new String[]{ano, mes});
+ 
+	        double acc = 0;
+
+	        while (aux2.moveToNext()) {
+		        acc += aux2.getDouble(0);
+	        }
+
             aux2.close();
 
             ContentValues c = new ContentValues();
-            c.put("quantiadisponivel", valorOriginal + valor);
+	        c.put("quantiadisponivel", acc + valor);
 
             this.getWritableDatabase().update("valoresmes", c, "_id = ?", new String[]{Integer.toString(id)});
             close();
