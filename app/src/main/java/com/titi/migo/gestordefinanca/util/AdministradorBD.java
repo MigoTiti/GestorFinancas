@@ -160,8 +160,8 @@ public class AdministradorBD extends SQLiteOpenHelper {
 
 	        Cursor aux2 = this.getReadableDatabase().rawQuery("SELECT valor FROM atividade WHERE ano = ? AND mes = ?",
 			        new String[]{ano, mes});
- 
-	        double acc = 0;
+
+            double acc = 0;
 
 	        while (aux2.moveToNext()) {
 		        acc += aux2.getDouble(0);
